@@ -1,0 +1,116 @@
+/* Estilos generales del sidebar */
+.sidebar {
+    background-color: #f5f7fa;
+    width: 250px; /* Ancho inicial */
+    height: calc(100vh - 71px); 
+    position: fixed;
+    top: 71px; 
+    left: 0;
+    overflow-y: auto;
+    box-sizing: border-box;
+    transition: width 0.3s ease;
+    z-index: 2; 
+    user-select: none;
+}
+
+/* Estilos del menú */
+.sidebar-menu {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* Estilos de los items del menú */
+.container-dash,
+.container-projects,
+.container-quote,
+.container-Developers {
+    display: flex;
+    align-items: center;
+    padding: 20px; /* Aumentamos el padding para más margen */
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-bottom: 2px solid #eee; /* Borde inferior más grueso y visible */
+    gap: 12px; /* Espacio entre el icono y el texto */
+}
+
+.container-Developers { /* Elimina el borde inferior del último contenedor */
+    border-bottom: none;
+}
+
+/* Hover effect */
+.container-dash:hover,
+.container-projects:hover,
+.container-quote:hover,
+.container-Developers:hover {
+    background-color: #f0f0f5; /* Fondo más claro al pasar el cursor */
+}
+
+/* Estado activo */
+.container-dash.active,
+.container-projects.active,
+.container-quote.active,
+.container-Developers.active {
+    background-color: #f0f0f5;
+    box-shadow: inset 0 0 0 2px #007bff; /* Borde azul llamativo */
+    color: #007bff;
+    
+}
+
+/* Estilos de los iconos */
+.iconDash,
+.iconProjects,
+.iconQuote,
+.iconDev {
+    width: 24px;
+    height: 24px;
+}
+
+/* Estilos del texto */
+.title-dash,
+.titleProjects,
+.titleQuote,
+.titleDevelopers {
+    font-family: Candara, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 60px;
+        padding: 15px 10px; /* Padding reducido para pantallas pequeñas */
+    }
+
+    .title-dash,
+    .titleProjects,
+    .titleQuote,
+    .titleDevelopers {
+        display: none;
+    }
+
+    .iconDash,
+    .iconProjects,
+    .iconQuote,
+    .iconDev {
+        margin-right: 0;
+    }
+
+
+    .container-dash.active,
+.container-projects.active,
+.container-quote.active,
+.container-Developers.active {
+    background-color: #007bff; /* Color de fondo para la sección activa */
+    color: white; /* Color del texto para la sección activa */
+}
+}
+
+/*.sidebar-item.active {
+    background-color: #f0f0f5;
+    box-shadow: inset 0 0 0 2px #007bff; /* Borde azul llamativo */
+  /*  color: #007bff; background-image: linear-gradient(to right, #ff5733, #ffbd33); /* Gradiente naranja-amarillo */
+    /*color: white;
+    border-bottom: 1 1px solid black;
+}*/

@@ -1,0 +1,146 @@
+/* Estilos generales del contenedor */
+.dashboard-container {
+  display: flex;
+  flex-wrap: wrap; /* Permite que las secciones se ajusten en varias filas si es necesario */
+  gap: 20px; /* Espacio entre secciones */
+  padding: 20px;
+}
+
+/* Estilos de las secciones */
+.project-section,
+.developers-section,
+.quotes-section {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
+  padding: 20px;
+  flex: 1 1 400px; /* Cada sección ocupa al menos 400px y crece para llenar el espacio disponible */
+}
+
+.project-section-header,
+.developers-section-header,
+.quotes-section-header {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.project-section-title,
+.developers-section-title,
+.quotes-section-title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.project-section-subtitle,
+.quotes-section-subtitle {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Estilos de las tarjetas de estado de los proyectos */
+.project-status-cards {
+  display: flex;
+  gap: 20px;
+}
+
+.project-status-card {
+  flex: 1; /* Las tarjetas ocupan el mismo espacio */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.card-count {
+  font-size: 28px;
+  color: #0d25f7;
+}
+
+.card-progress {
+  width: 100%;
+  height: 5px;
+  background-color: #ddd;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.card-progress-bar {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+.card-percentage {
+  font-size: 14px;
+  color: #545454;
+}
+
+.card-label {
+  font-size: 14px;
+  color: #545454;
+  margin-top: 20px;
+}
+
+.card-completed .card-progress-bar {
+  background-color: #00c04d;
+}
+
+.card-in-progress .card-progress-bar {
+  background-color: #eece25;
+}
+
+.card-pending .card-progress-bar {
+  background-color: #8c9803;
+}
+
+/* Estilos para la sección de desarrolladores */
+.developer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.developer-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.developer-item:last-child {
+  border-bottom: none;
+}
+
+.developer-image {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.developer-name,
+.developer-count {
+  font-size: 16px;
+}
+
+.developer-count {
+  margin-left: auto; /* Empuja el número de proyectos a la derecha */
+}

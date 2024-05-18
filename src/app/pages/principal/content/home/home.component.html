@@ -1,0 +1,74 @@
+<div class="dashboard-container">
+    <section class="project-section">
+      <div class="project-section-header">
+        <h2 class="project-section-title">Proyectos</h2>
+        <p class="project-section-subtitle">Cantidad de proyectos según estado</p>
+      </div>
+      <div class="project-status-cards">
+        <div class="project-status-card card-completed">
+          <div class="card-content">
+            <div class="card-title">Proyectos</div>
+            <div class="card-count">{{proyectos_culminados()}}</div>
+          </div>
+          <div class="card-progress">
+            <div class="card-progress-bar" style="width: {{porcentaje_culminados()}}%; background-color: #00c04d;"></div>
+            <div class="card-percentage">{{porcentaje_culminados()| number:'1.2-2'}}%</div>
+          </div>
+          <div class="card-label">Culminados</div>
+        </div>
+        <div class="project-status-card card-in-progress">
+          <div class="card-content">
+            <div class="card-title">Proyectos</div>
+            <div class="card-count">{{proyectos_en_curso()}}</div>
+          </div>
+          <div class="card-progress">
+            <div class="card-progress-bar" style="width:{{porcetaje_en_curso()}}%; background-color: #eece25;"></div>
+            <div class="card-percentage">{{porcetaje_en_curso() | number:'1.2-2'}}%</div>
+          </div>
+          <div class="card-label">En Curso</div>
+        </div>
+        <div class="project-status-card card-pending">
+          <div class="card-content">
+            <div class="card-title">Proyectos</div>
+            <div class="card-count">{{proyectos_cancelados()}}</div>
+          </div>
+          <div class="card-progress">
+            <div class="card-progress-bar" style="width: {{porcentaje_cancelados()}}%; background-color: #8c9803;"></div>
+            <div class="card-percentage">{{porcentaje_cancelados()| number:'1.2-2'}}%</div>
+          </div>
+          <div class="card-label">Cancelados</div>
+        </div>
+      </div>
+    </section>
+  
+    <section class="developers-section">
+      <div class="developers-section-header">
+        <h2 class="developers-section-title">Proyectos Desarrollados</h2>
+        <div class="developer-header">
+          <div class="developer-name">Desarrollador</div>
+          <div class="developer-count">N° Concluidos</div>
+        </div>
+      </div>
+      <div class="developer-list">
+        @for (desarrollador of desarolladores_proyectos_culminados(); track desarrollador; let i = $index) {
+          <div  class="developer-item" >
+            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/09e2f45fa7701058c0a0c04f8c2a208126adeb012d17b755b635f011dd75981b?apiKey=b9c9e80b094b48379046048594eb6c95&" alt="Developer Image" class="developer-image">
+            <div class="developer-name">{{desarrollador.desarrollador}}</div>
+            <div class="developer-count">{{desarrollador.proyectos_desarrollados}}</div>
+          </div>
+
+        }
+         
+        
+        </div>
+    </section>
+  
+    <section class="quotes-section">
+      <div class="quotes-section-header">
+        <h2 class="quotes-section-title">Cotizaciones</h2>
+        <p class="quotes-section-subtitle">Ingresos por estado</p>
+      </div>
+      </section>
+  </div>
+  
+  

@@ -1,0 +1,57 @@
+/* General Header Styling */
+.header {
+    background-color: #34495e;
+    display: flex;
+    align-items: center; /* Vertically center items */
+    justify-content: space-between; /* Distribute space evenly */
+    width: 100%;
+    padding: 15px 20px; /* Add padding for spacing */
+    color: #fff;
+    font-weight: 700;
+    user-select: none;
+}
+
+/* Header Title Styling */
+.header-titulo {
+    display: flex;
+    align-items: center; /* Vertically align image and text */
+    gap: 10px; /* Adjust spacing between image and text */
+    font-size: 24px; /* Slightly smaller font size */
+    white-space: nowrap;
+}
+
+/* Image Styling */
+.imgHeader {
+    width: 40px; /* Slightly smaller image */
+    height: 40px;
+    object-fit: contain; /* Maintain aspect ratio and fit within container */
+}
+
+/* Right-Side Content Styling */
+.div-4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) { 
+    .header {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: flex-start; /* Align items to the left */
+        text-align: center; /* Center the text */
+    }
+
+    .header-titulo {
+        flex-direction: column; /* Stack image and text vertically */
+        align-items: center;
+        margin-bottom: 10px; /* Add space below title on smaller screens */
+    }
+
+    .div-4 {
+        justify-content: center; /* Center the right-side content */
+    }
+}
+
+
