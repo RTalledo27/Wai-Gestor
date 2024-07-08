@@ -1,0 +1,92 @@
+/* Structure */
+table {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+
+
+.enCurso{
+
+  background-color: #EECE25;
+  border-radius: 30px;
+  padding: 4px 40px;
+  
+}
+
+.pendiente{
+
+  background-color: #8C9803;
+  border-radius: 30px;
+  padding: 4px 35px;
+
+}
+
+.culminado{
+
+  background-color: #00C04D;
+  border-radius: 30px;
+  padding: 4px 30px;
+
+}
+.cancelado{
+
+  background-color: #FF0000;
+  border-radius: 30px;
+  padding: 4px 30px;
+
+}
+
+.mat-mdc-header-row{
+  background-color: #EFEFEF;
+  
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+}
+
+
+.container-buttons{
+  display: flex;
+  justify-content: space-between;
+  margin-right: 5px;
+}
+.buttonCreate{
+  background-color: #007bff; /* Blue background */
+  color: white;
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  width: 11rem;
+  border: none;
+  border-radius: 04px;
+  cursor: pointer;
+
+
+}
+
+.container-header{
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Distribute items evenly */
+  align-items: center; /* Vertically align items */
+  padding: 15px 20px; /* Add padding for spacing */
+  background-color: #f5f5f5; /* Light background color */
+  border-bottom: 1px solid #ddd; /* Subtle border */
+}
+
+
+th, td {
+  padding: 12px 15px; /* Add padding to cells */
+  text-align: left;
+  border-bottom: 1px solid #ddd; /* Light gray border */
+}

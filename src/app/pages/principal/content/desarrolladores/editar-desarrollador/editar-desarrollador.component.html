@@ -1,0 +1,42 @@
+
+<div class="container-form-edit" [class.overlay]="hideEditForm()">
+
+    <div [formGroup]="formEmpleadoEdit" [class.form-empleado]="hideEditForm()">
+      <h1>Editar Empleado</h1>
+      <div formGroupName="empleado_seccion" class="seccion-empleado">
+        
+        <mat-form-field>
+          <mat-label>Id de Empleado</mat-label>
+          <input matInput formControlName="idEmpleado" readonly>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Nombre empleado</mat-label>
+          <input matInput formControlName="nombre_empleado" (keyup)="changeValue($event)" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Usuario</mat-label>
+          <input matInput formControlName="usuario"  (keyup)="changeValue($event)"/>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>dni empleado</mat-label>
+          <input matInput formControlName="dni_empleado" (keyup)="changeValue($event)" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>correo empleado</mat-label>
+            <input matInput formControlName="correo_empleado" (keyup)="changeValue($event)" />
+          </mat-form-field>
+        
+      </div>
+
+      <mat-error *ngIf="errorMessage">{{errorMessage()}}</mat-error>
+  
+      <div [class.buttons]="hideEditForm()">
+        <button mat-button   (click)="mostrarEditForm()">Regresar</button>
+        <button mat-button (click)="actualizarEmpleado()"  >{{this.textButton()}}</button>
+      </div>
+      
+  
+    </div>
+
+</div>

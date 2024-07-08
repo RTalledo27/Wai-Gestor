@@ -1,0 +1,17 @@
+/* Estilos generales del contenedor principal */
+.content-wrapper {
+    margin-top: 71px; /* Espacio para el header */
+  }
+  
+  .content {
+    flex-grow: 1; /* El contenido principal ocupa el espacio restante */
+    padding: 20px;
+    margin-left: 250px; /* Espacio para el sidebar en pantallas grandes */
+  }
+  
+  @media (max-width: 768px) {
+    .content {
+      margin-left: 60px; /* Espacio reducido para el sidebar en pantallas pequeñas */
+    }
+  }
+  

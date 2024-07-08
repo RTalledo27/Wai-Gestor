@@ -1,1 +1,66 @@
-<p>desarrolladores works!</p>
+<div class="container-filter">
+    <mat-form-field>
+      <mat-label>Buscar elemento</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Buscar" #input>
+    </mat-form-field>
+
+    <div class="example-button-row">
+
+        <button mat-stroked-button color="accent"  class="buttonCreate" (click)="mostrarNuevoForm()" >Nuevo Elemento</button>
+    
+
+    </div>
+  </div>
+  
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let elemento"> {{elemento.nombre_empleado}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="dni">
+        <th mat-header-cell *matHeaderCellDef> DNI </th>
+        <td mat-cell *matCellDef="let elemento"> {{elemento.dni_empleado}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="correo">
+        <th mat-header-cell *matHeaderCellDef> Correo </th>
+        <td mat-cell *matCellDef="let elemento"> {{elemento.correo_empleado}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef>  </th>
+        <td mat-cell *matCellDef="let elemento"> 
+            <button mat-icon-button (click)="mostrarEditForm(elemento)"> <mat-icon>edit</mat-icon></button>
+        
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>  </th>
+        <td mat-cell *matCellDef="let elemento"> 
+            <button mat-icon-button> <mat-icon>delete</mat-icon></button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+      <!--MENSAJE POR SI NO ENCUENTRA NADA EN EL FILTER-->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4"> No hay datos para la búsqueda: "{{input.value}}" </td>
+      </tr>
+    </table>
+  
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div>
+
+
+  <app-nuevo-desarrollador [hideNuevoForm]="hideNuevoForm"></app-nuevo-desarrollador>
+  <app-editar-desarrollador *ngIf="hideEditForm()" [hideEditForm]="hideEditForm " [desarrollador]="this.empleados"></app-editar-desarrollador>

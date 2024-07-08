@@ -1,0 +1,58 @@
+<div class="container-form-nuevo-desarrollador"  [class.overlay]="hideNuevoForm()">
+
+    <div    [formGroup]="formNuevoDesarrollador"[class.form-empleado]="hideNuevoForm()">
+        <h1>Registrar empleado</h1>
+
+        <div formGroupName="seccion_empleado" [class.seccion-empleado]="hideNuevoForm()">
+            
+            <mat-form-field>
+                <mat-label>Usuario</mat-label>
+                <input matInput formControlName="usuario" >
+            </mat-form-field>
+        
+            <mat-form-field>
+                <mat-label>Nombre del empleado</mat-label>
+                <input matInput formControlName="nombre_empleado" (keyup)="changeValue($event)" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>DNI del empleado</mat-label>
+                <input matInput formControlName="dni_empleado"  (keyup)="changeValue($event)"/>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Correo del empleado</mat-label>
+                <input matInput formControlName="correo_empleado" (keyup)="changeValue($event)" />
+            </mat-form-field>
+           
+           <mat-form-field>
+                <mat-label>Rol</mat-label>
+                <mat-select  placeholder="Rol" formControlName="idRol"  (selectionChange)="changeValueSelect($event)">
+                    <mat-option *ngFor="let rol of roles" [value]="rol.idRol">
+                        {{ rol.nombre_rol }}
+                    </mat-option>
+                </mat-select>
+           </mat-form-field>
+           
+
+
+            <mat-form-field>
+                <mat-label>Contraseña del empleado</mat-label>
+                <input matInput formControlName="contraseña" (keyup)="changeValue($event)" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Confirmar contraseña</mat-label>
+                <input matInput formControlName="confirmar_contraseña" (keyup)="changeValue($event)" />
+            </mat-form-field>
+
+
+            <div [class.buttons]="hideNuevoForm">
+                <button mat-button  (click)="mostrarNuevoForm()">Regresar</button>
+                <button mat-button (click)="registrarEmpleado()">{{this.textButton()}}</button>
+            </div>  
+
+        </div>
+       
+    </div>
+
+    
+
+</div>

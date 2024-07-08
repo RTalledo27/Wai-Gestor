@@ -1,0 +1,47 @@
+.container-form-nuevo-desarrollador {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex: 1;
+    margin-top: 1rem;
+    display: none;
+}
+
+.seccion-empleado{
+    
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        padding: 5px auto;
+        
+      }
+
+
+  .overlay {
+    display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  }
+
+
+  .form-empleado{
+    width: 20rem;
+    margin: 1rem;
+    background: azure;
+    padding: 2rem;
+    border-radius: 15px;
+  }
+
+
+  .buttons{
+    display: flex;
+    justify-content: space-between;
+  }

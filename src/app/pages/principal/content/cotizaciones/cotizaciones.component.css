@@ -1,0 +1,10 @@
+.td-costos{
+    display: flex;
+    flex-direction: column;
+}
+
+.td-elementos{
+    display: flex;
+    flex-direction: column;
+}
+

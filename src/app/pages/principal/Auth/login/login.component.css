@@ -1,0 +1,100 @@
+
+
+/* General Styling */
+.container {
+  display: flex;
+  justify-content: space-around; /* Distribute space evenly */
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);  
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+}
+
+.login-form {
+  background-color: #fff;
+  padding: 40px; /* Increased padding for more breathing room */
+  border-radius: 15px; /* Slightly more rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+  width: 450px; /* Fixed width for the form */
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.input-group {
+  position: relative; /* Position the icon relative to the input */
+  margin-bottom: 20px;
+}
+.input-icon {
+  position: absolute;
+  top: 12px;      /* Ajusta la posición vertical del icono */
+  left: 10px;     /* Ajusta la posición horizontal del icono */
+  color: #999;
+}
+
+/* ... (previous CSS styles) ... */
+
+.logo img {
+  max-width: 180px;
+  background-color: #4c4cdc; /* Add a background color to the logo */
+  padding: 10px;             /* Add some padding for spacing */
+  border-radius: 10px;  
+  align-items: center;      /* Round the corners of the logo background */
+}
+
+h1 {
+  font-size: 28px;
+  margin: 10px 0;
+  color: #333; /* Darker heading color */
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 25px;
+  color: #555;
+}
+
+/* Form Elements */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: calc(100% - 22px); /* Account for padding */
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd; /* Lighter border */
+  border-radius: 8px;
+  padding-left: 40px;
+}
+
+button[type="submit"] {
+  background-color: #4CAF50; /* Green button */
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+/* Illustration */
+.illustration img {
+  max-width: 500px; /* Adjust to your preference */
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
