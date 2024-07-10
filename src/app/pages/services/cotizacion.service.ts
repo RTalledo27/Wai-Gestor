@@ -22,10 +22,12 @@ export class CotizacionService {
 
   getCotizacionByID(idProyecto: number): Observable<Cotizaciones> {
     return this.http.get<any>(`${this.apiUrl}/${idProyecto}`)
-    .pipe(
-      map(response => response.data as Cotizaciones)
-    );
-  }
+        .pipe(
+            map(response => response.data as Cotizaciones)
+        );
+}
+
+
 
   registrarCotizacion(cotizacion: Cotizaciones): Observable<Cotizaciones> {
     return this.http.post<Cotizaciones>(this.apiUrl, cotizacion)

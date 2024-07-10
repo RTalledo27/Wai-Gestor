@@ -1,0 +1,69 @@
+#pdfContent {
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    max-width: 800px; /* Limita el ancho del contenido para una mejor legibilidad */
+    margin: 0 auto; /* Centra el contenido */
+    padding: 20px;
+    border: 1px solid #ddd; /* Agrega un borde sutil */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Agrega una sombra suave */
+  }
+  
+  header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .title {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  
+  .date {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  section {
+    margin-bottom: 30px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+  }
+  
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .label {
+    font-weight: bold;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  th {
+    background-color: #f5f5f5;
+  }
+  
+  .totals {
+    margin-top: 20px;
+    text-align: right;
+  }
+  
+  .total {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  

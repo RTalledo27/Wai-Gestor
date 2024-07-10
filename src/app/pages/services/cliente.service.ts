@@ -20,4 +20,13 @@ export class ClienteService {
       map(response => response as Clientes)
       );
   }
+
+
+  getClienteById(idCliente: number): Observable<Clientes> {
+    return this.http.get<any>(`${this.apiUrlCliente}/${idCliente}`)
+        .pipe(
+            map(response => response.data.attributes as Clientes)
+        );
+}
+
 }

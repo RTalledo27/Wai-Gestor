@@ -1,5 +1,5 @@
 import { Elementos } from "./elementos";
-
+import {ElementosCotizacion} from "./elementos_cotizacion"
 
 export interface Cotizaciones {
     idCotizacion: number;
@@ -12,4 +12,6 @@ export interface Cotizaciones {
     descuento: number;
     total: number;
     elementos: Elementos[];
+    elementos_cotizacion: ElementosCotizacion[];
+
 }

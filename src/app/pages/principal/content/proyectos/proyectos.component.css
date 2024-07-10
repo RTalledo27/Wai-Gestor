@@ -49,7 +49,6 @@ table {
 .mat-mdc-row .mat-mdc-cell {
   border-bottom: 1px solid transparent;
   border-top: 1px solid transparent;
-  cursor: pointer;
 }
 
 .mat-mdc-row:hover .mat-mdc-cell {
@@ -89,4 +88,64 @@ th, td {
   padding: 12px 15px; /* Add padding to cells */
   text-align: left;
   border-bottom: 1px solid #ddd; /* Light gray border */
+}
+
+
+/*Estilos para pdf descargado/
+
+/* styles.css */
+.pdf-content {
+  font-family: Arial, sans-serif;
+  color: #333;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  width: 210mm; /* A4 width */
+  margin: auto;
+  background-color: #fff;
+}
+
+.pdf-header, .pdf-section {
+  margin-bottom: 20px;
+}
+
+.pdf-header h1 {
+  font-size: 24px;
+  color: #0056b3;
+  border-bottom: 2px solid #0056b3;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.pdf-section h2 {
+  font-size: 20px;
+  color: #007bff;
+  border-bottom: 1px solid #007bff;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.pdf-content span {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f2f2f2;
 }
