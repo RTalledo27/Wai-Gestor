@@ -1,0 +1,187 @@
+<div class="container">
+<div [formGroup]="formNuevo" class="container-form">
+  <h1>Registrar proyecto</h1>
+
+  <!-- Sección Proyecto -->
+  <div formGroupName="proyecto_seccion" class="seccion-proyecto" *ngIf="visibleSeccionProyecto">
+    <mat-form-field>
+      <mat-label>Nombre del Proyecto</mat-label>
+      <input matInput formControlName="nombre_proyecto" (keyup)="changeValue($event)" />
+      <mat-error *ngIf="this.formNuevo.get('proyecto_seccion.nombre_proyecto')?.hasError('required')">El campo Nombre del Proyecto no puede estar vacio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Descripcion del Proyecto</mat-label>
+      <input matInput formControlName="descripcion" (keyup)="changeValue($event)" />
+      <mat-error *ngIf="this.formNuevo.get('proyecto_seccion.descripcion')?.hasError('required')">El campo Descripcion del Proyecto no puede estar vacio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha de Inicio del Proyecto</mat-label>
+      <input matInput [matDatepicker]="picker1" formControlName="fecha_inicio" placeholder="dd/mm/aaaa"  readonly/>
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+      <mat-error *ngIf="formNuevo.get('proyecto_seccion.fecha_inicio')?.hasError('required')">
+        Debe seleccionar una fecha válida
+      </mat-error>
+      <mat-error *ngIf="formNuevo.get('proyecto_seccion.fecha_inicio')?.hasError('invalidFechaInicio')">
+        Debe ingresar una fecha actual o futura
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha de Fin del Proyecto</mat-label>
+      <input matInput [matDatepicker]="picker2" formControlName="fecha_fin" placeholder="dd/mm/aaaa" readonly/>
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+      <mat-error *ngIf="formNuevo.get('proyecto_seccion.fecha_fin')?.hasError('required')">
+        Debe seleccionar una fecha válida
+      </mat-error>
+      <mat-error *ngIf="formNuevo.get('proyecto_seccion.fecha_fin')?.hasError('invalidDate')">
+        La fecha no es válida
+      </mat-error>
+      <mat-error *ngIf="formNuevo.get('proyecto_seccion.fecha_fin')?.hasError('invalidFechaFin')">
+        Debe ingresar una fecha mayor a la fecha de inicio
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- Sección Cliente -->
+  <div formGroupName="cliente_seccion" class="seccion-cliente" *ngIf="visibleSeccionCliente">
+    <mat-form-field>
+      <mat-label>Nombre del Cliente</mat-label>
+      <input matInput formControlName="nombre_cliente" (keyup)="changeValue($event)" />
+      <mat-error *ngIf="this.formNuevo.get('cliente_seccion.nombre_cliente')?.hasError('required')">El campo Nombre del Cliente no puede estar vacio</mat-error>
+      <mat-error *ngIf="this.formNuevo.get('cliente_seccion.nombre_cliente')?.hasError('pattern')">El campo Nombre del Cliente no puede tener numeros ni caracteres especiales</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Correo del Cliente</mat-label>
+      <input type="email" matInput formControlName="correo_cliente" (keyup)="changeValue($event)" />
+      <mat-error *ngIf="this.formNuevo.get('cliente_seccion.correo_cliente')?.hasError('required')">El campo Correo del Cliente no puede estar vacio</mat-error>
+      <mat-error *ngIf="this.formNuevo.get('cliente_seccion.correo_cliente')?.hasError('email')">El campo Correo del Cliente no es un correo valido</mat-error>
+      <mat-error *ngIf="this.formNuevo.get('cliente_seccion.correo_cliente')?.hasError('pattern')">El campo Correo del cliente no es un correo valido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Telefono del Cliente</mat-label>
+      <input matInput formControlName="telefono_cliente" (keyup)="changeValue($event)" />
+      <mat-error *ngIf="this.formNuevo.get('cliente_seccion.telefono_cliente')?.hasError('required')">El campo Telefono del Cliente no puede estar vacio</mat-error>
+      <mat-error *ngIf="this.formNuevo.get('cliente_seccion.telefono_cliente')?.hasError('minlength')">El telefono debe tener 9 digitos</mat-error>
+      <mat-error *ngIf="this.formNuevo.get('cliente_seccion.telefono_cliente')?.hasError('maxlength')">El telefono debe tener 9 digitos</mat-error>
+      <mat-error *ngIf="this.formNuevo.get('cliente_seccion.telefono_cliente')?.hasError('pattern')">El telefono solo debe contener números</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>DNI del Cliente</mat-label>
+      <input matInput formControlName="dni_cliente" (keyup)="changeValue($event)" />
+      <mat-error *ngIf="this.formNuevo.get('cliente_seccion.dni_cliente')?.hasError('required')">El campo DNI del Cliente no puede estar vacio</mat-error>
+      <mat-error *ngIf="this.formNuevo.get('cliente_seccion.dni_cliente')?.hasError('minlength ')">El DNI solo debe de tener 8 digitos</mat-error>
+      <mat-error *ngIf="this.formNuevo.get('cliente_seccion.dni_cliente')?.hasError('maxlength')">El DNI solo debe de tener 8 digitos</mat-error>
+      <mat-error *ngIf="this.formNuevo.get('cliente_seccion.dni_cliente')?.hasError('pattern')">El DNI solo debe de contener números</mat-error>
+
+    </mat-form-field>
+  </div>
+
+  <!-- Sección Desarrollador -->
+  <div formGroupName="desarrollador_seccion" class="seccion-desarrollador" *ngIf="visibleSeccionDesarrollador">
+    <mat-form-field>
+      <mat-label>Desarrollador</mat-label>
+      <mat-select (selectionChange)="changeValueSelect($event)">
+        <mat-option *ngFor="let empleado of empleados" [value]="empleado.idEmpleado">
+          {{ empleado.nombre_empleado }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>ID Desarrollador</mat-label>
+      <input matInput formControlName="id_desarrolldaor"  readonly/>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Nombre desarrollador</mat-label>
+      <input matInput formControlName="nombre_desarrollador"  readonly/>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Correo desarrollador</mat-label>
+      <input matInput formControlName="correo_desarrollador"  readonly/>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>DNI desarrollador</mat-label>
+      <input matInput formControlName="dni_desarrollador"  readonly/>
+    </mat-form-field>
+  </div>
+
+  <!-- Sección Cotización -->
+  <div formGroupName="cotizacion_seccion" *ngIf="visibleSeccionCotizacion">
+    <mat-form-field>
+      <mat-label>Cotización</mat-label>
+      <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" />
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addElemento($event)">
+        <mat-option *ngFor="let elementos of filteredOptions | async" [value]="elementos">
+          {{ elementos }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <h3>Lista de Cotizaciones:</h3>
+    <div class="container-list">
+     
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let elemento of selectedElementos" class="list-item">
+          <mat-icon class="delete-icon" (click)="deleteElemento(elemento)">delete</mat-icon>
+          <span class="text-container">{{ elemento.nombre_elemento }} - S/. {{ elemento.costo }}</span>
+        </mat-list-item>
+      </mat-list>
+      
+
+      <mat-divider></mat-divider>
+      
+      <div class="container-precioss">
+        <mat-form-field floatLabel="always">
+          <mat-label>SubTotal</mat-label>
+          <input matInput type="number" formControlName="subtotal" class="example-right-align" placeholder="0"  readonly/>
+          <span matTextPrefix>$&nbsp;</span>
+          <span matTextSuffix>.00</span>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="always">
+          <mat-label>Descuento:</mat-label>
+          <input matInput type="number" formControlName="descuento" (keyup)="changeValueDescuento($event)" class="example-right-align" placeholder="0" />
+          <span matTextPrefix>$&nbsp;</span>
+          <span matTextSuffix>.00</span>
+        </mat-form-field>
+
+        <mat-divider></mat-divider>
+
+        <mat-form-field floatLabel="always">
+          <mat-label>Total:</mat-label>
+          <input matInput type="number" formControlName="total" class="example-right-align" placeholder="0" readonly/>
+          <span matTextPrefix>$&nbsp;</span>
+          <span matTextSuffix>.00</span>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botones de Navegación -->
+  <div class="buttons">
+    <button mat-flat-button color="accent" matTooltip="This is a tooltip!" *ngIf="!visibleSeccionProyecto" (click)="backTo()">
+      Volver
+    </button>
+    <button mat-flat-button color="accent" matTooltip="This is a tooltip!" (click)="nextSection()">
+      {{ buttonText() }}
+    </button>
+  </div>
+</div>
+
+    <div *ngIf="visibleSeccionCotizacion" class="pdfView">
+      <iframe #pdfContainer width="100%" height="500px" [src]="pdfSrc"></iframe>
+    </div>
+  </div>
+
+
+

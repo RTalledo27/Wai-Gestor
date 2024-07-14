@@ -1,0 +1,138 @@
+/* Main container for the entire form */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form container with a max-width and padding */
+.container-form {
+  max-width: 800px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  flex: 1;
+  background-color: #fff;
+}
+
+/* Header styling */
+h1 {
+  color: #333; /* Darker text color for titles */
+  font-size: 1.2rem; /* Slightly larger font size for titles */
+  margin-bottom: 10px;
+}
+
+/* Specific styling for date input fields */
+.mat-form-field-type-date .mat-form-field-infix {
+  width: 120px;
+}
+
+/* Section styling for project, client, and developer sections */
+.seccion-proyecto,
+.seccion-cliente,
+.seccion-desarrollador {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  gap:3px;
+}
+
+/* Flexbox container for the list and totals */
+.container-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* Styling for the list of elements */
+.element-list {
+  flex: 1;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Pricing container styling */
+.container-precios {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Button container styling */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Example container for spacing between form fields */
+.example-container mat-form-field + mat-form-field {
+  margin-left: 8px;
+}
+
+/* Right-aligned text input fields */
+.example-right-align {
+  text-align: right;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* PDF view container styling */
+.pdfView {
+  flex: 2; /* PDF column occupies 2 parts of the space */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+/* Align form fields and labels consistently */
+.mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.mat-form-field-label {
+  color: #666; /* Lighter text color for labels */
+}
+
+.mat-form-field-prefix,
+.mat-form-field-suffix {
+  color: #888;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+}
+
+.delete-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.text-container {
+  display: inline-block;
+  vertical-align: middle;
+}

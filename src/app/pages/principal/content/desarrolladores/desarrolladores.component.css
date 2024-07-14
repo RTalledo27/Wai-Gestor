@@ -1,0 +1,19 @@
+
+
+.container-filter{
+    display: flex;
+    flex-direction: rows;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buttonCreate{
+    background-color: #007bff; /* Blue background */
+    color: white;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    width: 11rem;
+    border: none;
+    border-radius: 04px;
+    cursor: pointer;
+}

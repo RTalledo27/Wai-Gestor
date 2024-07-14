@@ -1,0 +1,36 @@
+h1 {
+    font-size: 4rem;
+    color: red; 
+  }
+  
+  .container-span {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .container-404{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column  ;
+
+  }
+  
+  .return  {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: blue;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;  /* Color azul para el botón */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}

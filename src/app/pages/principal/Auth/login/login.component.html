@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="login-form">
+      <div class="logo">
+          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/ed8f170ccc5e1828d2b314b6b9e59a97f80c1d73bced5adfae21c399fdf70876?apiKey=b9c9e80b094b48379046048594eb6c95&" alt="Wai Technology Logo">
+          <h1>Wai Technology</h1>
+      </div>
+      <h2>Login</h2>
+      <form [formGroup]="formGroup" (submit)="onSubmit()">
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-envelope"></i></span>
+          <input formControlName="correo_empleado" type="text" id="correo_empleado" name="correo_empleado" placeholder="Email / Usuario">
+        </div>
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-lock"></i></span>
+          <input formControlName="password" type="password" id="password" name="password" placeholder="Contraseña">
+        </div>
+        <mat-error *ngIf="errorMessage">{{ errorMessage() }}</mat-error>
+        <button type="submit">Iniciar Sesión</button>
+      </form>
+    </div>
+  <!--<div class="illustration">
+      <img srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/689903b035089000add21ad1c69438632c6a9858e5f72775a38c3064459b85f2?apiKey=b9c9e80b094b48379046048594eb6c95&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/689903b035089000add21ad1c69438632c6a9858e5f72775a38c3064459b85f2?apiKey=b9c9e80b094b48379046048594eb6c95&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/689903b035089000add21ad1c69438632c6a9858e5f72775a38c3064459b85f2?apiKey=b9c9e80b094b48379046048594eb6c95&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/689903b035089000add21ad1c69438632c6a9858e5f72775a38c3064459b85f2?apiKey=b9c9e80b094b48379046048594eb6c95&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/689903b035089000add21ad1c69438632c6a9858e5f72775a38c3064459b85f2?apiKey=b9c9e80b094b48379046048594eb6c95&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/689903b035089000add21ad1c69438632c6a9858e5f72775a38c3064459b85f2?apiKey=b9c9e80b094b48379046048594eb6c95&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/689903b035089000add21ad1c69438632c6a9858e5f72775a38c3064459b85f2?apiKey=b9c9e80b094b48379046048594eb6c95&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/689903b035089000add21ad1c69438632c6a9858e5f72775a38c3064459b85f2?apiKey=b9c9e80b094b48379046048594eb6c95&"
+      alt="Illustration">
+  </div> -->
+</div>

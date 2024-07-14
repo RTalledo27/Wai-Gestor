@@ -1,0 +1,101 @@
+/* General Styles */
+.container-edit {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .container-project, 
+  .container-client, 
+  .container-dev, 
+  .container-estado, 
+  .container-cotizacion {
+    background-color: #fff; /* White background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  span {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="date"],
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    margin-bottom: 15px;
+  }
+  
+  select {
+    height: 40px; /* Adjust height as needed */
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  .container-list {
+    overflow-y: auto;
+    max-height: 200px; /* Ajusta según tus necesidades */
+  }
+  
+  .container-precioss {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas de igual ancho */
+    gap: 10px; /* Espacio entre columnas */
+  }
+  
+  .mat-form-field {
+    width: 100%; /* Los campos ocupan todo el ancho de su columna */
+  }
+  
+  /* Media query para pantallas pequeñas */
+  @media (max-width: 600px) {
+    .container-precioss {
+      grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+    }
+  }
+
+  
+.list-item {
+  display: flex;
+  align-items: center;
+}
+
+.delete-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.text-container {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+

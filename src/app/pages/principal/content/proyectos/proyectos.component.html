@@ -1,1 +1,123 @@
-<p>proyectos works!</p>
+<!--<div *ngFor="let proyecto of proyectos">
+    <h3>{{ proyecto.nombre_proyecto }}</h3>
+    <p>{{ proyecto.descripcion }}</p>
+    <p>Cliente: {{ proyecto.cliente.nombre_cliente }}</p>
+    <p>Empleado: {{ proyecto.empleado.nombre }}</p>
+    <p>Empleado: {{ proyecto.empleado.dni }}</p>
+    <p>Empleado: {{ proyecto.empleado.idEmpleado }}</p>
+    <p>Estado: {{ proyecto.estado.estado }}</p>
+  </div>-->
+
+  <div class="container-header"> 
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Buscar" #input>
+    </mat-form-field>
+
+    <button mat-button routerLink="/proyectos/nuevo" routerLinkActive="router-link-active" class="buttonCreate" >Crear proyecto</button>
+  </div>
+  
+  
+  <div class="mat-elevation-z8">
+    
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+      <!-- Position Column -->
+      <ng-container matColumnDef="Titulo">
+        <th mat-header-cell *matHeaderCellDef> Titulo </th>
+        <td mat-cell *matCellDef="let proyectos"> {{proyectos.nombre_proyecto}} </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="Descripción">
+        <th mat-header-cell *matHeaderCellDef> Descripción </th>
+        <td mat-cell *matCellDef="let proyectos"> {{proyectos.descripcion}} </td>
+      </ng-container>
+  
+      <!-- Weight Column -->
+      <ng-container matColumnDef="Desarrollador">
+        <th mat-header-cell width="20%" *matHeaderCellDef > Desarrollador </th>
+        <td mat-cell *matCellDef="let proyectos" > {{proyectos.empleado.nombre_empleado}} </td>
+      </ng-container>
+
+      <!--Fecha inicio -->
+      <ng-container matColumnDef="Fecha Inicio">
+        <th mat-header-cell width="10%" *matHeaderCellDef > Fecha inicio </th>
+        <td mat-cell *matCellDef="let proyectos" > {{proyectos.fecha_inicio|dateFormat }} </td>
+      </ng-container>
+
+       <!--Fecha inicio -->
+       <ng-container matColumnDef="Fecha Fin">
+        <th mat-header-cell width="10%" *matHeaderCellDef > Fecha fin </th>
+        <td mat-cell *matCellDef="let proyectos" > {{proyectos.fecha_fin|dateFormat}} </td>
+      </ng-container>
+  
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="Estado">
+        <th mat-header-cell width="20%" *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let proyectos"> <span class="{{setClass(proyectos)}}">{{proyectos.estado.estado}}</span> </td>
+      </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="editar">
+          <th mat-header-cell *matHeaderCellDef>  </th>
+          <td mat-cell *matCellDef="let proyectos"> 
+          <div class="container-buttons">
+          
+            <button mat-icon-button>
+                <mat-icon (click)="setIdProyecto(proyectos)">edit</mat-icon>
+            </button>
+
+           
+           
+          </div>
+          </td>
+        </ng-container>
+
+         <!-- Symbol Column -->
+         <ng-container matColumnDef="pdf">
+          <th mat-header-cell *matHeaderCellDef>  </th>
+          <td mat-cell *matCellDef="let proyectos"> 
+          <div class="container-buttons">
+          
+            <button mat-icon-button>
+                <mat-icon (click)="downloadPDF(proyectos)">download</mat-icon>
+            </button>
+
+           
+           
+          </div>
+          </td>
+        </ng-container>
+    
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row
+      
+     
+      
+       *matRowDef="let row; columns: displayedColumns;">
+      </tr>
+
+
+      <!-- Row shown when there is no matching data. -->
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">No hay datos para la busqueda: "{{input.value}}"</td>
+  </tr>
+
+
+
+    </table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                   showFirstLastButtons
+                   aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div>
+
+
+ 
+
+<app-editar (updateProyecto)="onProyectoAdded()" [idProyecto]="idProyecto()" *ngIf="!visible" ></app-editar>
+
+  

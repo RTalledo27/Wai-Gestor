@@ -1,7 +1,7 @@
 export interface Clientes {
-    idClientes: number;
+    idCliente: number;
     nombre_cliente:string;
     correo_cliente:string;
-    telefono:number;
-    dni:number;
+    telefono_cliente:number;
+    dni_cliente:number;
 }

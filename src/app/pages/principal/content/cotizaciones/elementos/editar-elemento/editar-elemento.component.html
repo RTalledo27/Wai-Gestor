@@ -1,0 +1,43 @@
+<div class="container-form-nuevo" [class.overlay]="hideEditForm()">
+    <div [formGroup]="formElementoEdit" [class.form-elemento]="hideEditForm()">
+      <h1>Editar elemento</h1>
+      <div formGroupName="elemento_seccion" class="seccion-elemento">
+        
+        <mat-form-field>
+          <mat-label>Id de Elemento</mat-label>
+          <input matInput formControlName="idElemento" readonly>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Nombre del Elemento</mat-label>
+          <input matInput formControlName="nombre_elemento" (keyup)="changeValue($event)" />
+          <mat-error *ngIf="this.formElementoEdit.get('elemento_seccion.nombre_elemento')?.hasError('required')">El campo nombre elemento no puede estar vacio</mat-error>
+          <mat-error *ngIf="this.formElementoEdit.get('elemento_seccion.nombre_elemento')?.hasError('minlength')">El campo nombre elemento debe contener al menos 3 caracteres</mat-error>
+          <mat-error *ngIf="this.formElementoEdit.get('elemento_seccion.nombre_elemento')?.hasError('pattern')">El campo nombre elemento solo debe contener letras</mat-error>  
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Descripcion del Elemento</mat-label>
+          <input matInput formControlName="descripcion"  (keyup)="changeValue($event)"/>
+          <mat-error *ngIf="this.formElementoEdit.get('elemento_seccion.descripcion')?.hasError('required')">El campo descripcion no puede estar vacio</mat-error>
+          <mat-error *ngIf="this.formElementoEdit.get('elemento_seccion.descripcion')?.hasError('minlength')">El campo descripcion debe contener al menos 3 caracteres</mat-error>
+          </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Costo de servicio</mat-label>
+          <input matInput formControlName="costo" (keyup)="changeValue($event)" />
+          <mat-error *ngIf="this.formElementoEdit.get('elemento_seccion.costo')?.hasError('required')">El campo costo no puede estar vacio</mat-error>
+          <mat-error *ngIf="this.formElementoEdit.get('elemento_seccion.costo')?.hasError('pattern')">El campo costo solo debe contener números</mat-error>
+       
+        </mat-form-field>
+        
+      </div>
+  
+      <div [class.buttons]="hideEditForm()">
+        <button mat-button (click)="this.mostrarEditForm()">Regresar</button>
+        <button mat-button (click)="actualizarElemento()"  >{{this.textButton()}}</button>
+      </div>
+      
+  
+    </div>
+  </div>

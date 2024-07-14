@@ -1,0 +1,68 @@
+<div class="container-filter">
+    <mat-form-field>
+      <mat-label>Buscar elemento</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Buscar" #input>
+    </mat-form-field>
+
+    <div class="example-button-row">
+
+        <button mat-stroked-button color="accent" class="buttonCreate" (click)="mostrarNuevoForm()">Nuevo Elemento</button>
+
+    </div>
+  </div>
+  
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+      <ng-container matColumnDef="idElemento">
+        <th mat-header-cell *matHeaderCellDef> Id Elemento </th>
+        <td mat-cell *matCellDef="let elemento"> {{elemento.idElemento}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="Nombre_elemento">
+        <th mat-header-cell *matHeaderCellDef> Nombre Elemento </th>
+        <td mat-cell *matCellDef="let elemento"> {{elemento.nombre_elemento}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef> Descripción </th>
+        <td mat-cell *matCellDef="let elemento"> {{elemento.descripcion}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="costo">
+        <th mat-header-cell *matHeaderCellDef> Costo </th>
+        <td mat-cell *matCellDef="let elemento"> {{elemento.costo}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef>  </th>
+        <td mat-cell *matCellDef="let elemento"> 
+            <button mat-icon-button (click)="this.mostrarEditForm(elemento)"> <mat-icon>edit</mat-icon></button>
+        </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>  </th>
+        <td mat-cell *matCellDef="let elemento"> 
+            <button mat-icon-button (click)="this.openDialogCard(elemento)"> <mat-icon>delete</mat-icon></button>
+        </td>
+      </ng-container>
+      
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+      <!--MENSAJE POR SI NO ENCUENTRA NADA EN EL FILTER-->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4"> No hay datos para la búsqueda: "{{input.value}}" </td>
+      </tr>
+    </table>
+  
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div>
+
+  <app-nuevo-elemento (addElement)="onElementAdded()" [hideNuevoForm]="hideNuevoForm"></app-nuevo-elemento>
+  <app-editar-elemento  (updateElemento)="onElementAdded()" *ngIf="hideEditForm()" [hideEditForm]="hideEditForm "[elementos]="this.elemento"></app-editar-elemento>

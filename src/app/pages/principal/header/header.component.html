@@ -1,19 +1,31 @@
-<div class="header" >
-    <div class="header-titulo" >
-      <img
-        loading="lazy"
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/ea7dd62d8e8fb4d17c0284936f39c06de035b48c94e98884fca3beb207133606?apiKey=b9c9e80b094b48379046048594eb6c95&"
-        class="imgHeader"
-      />
-      <div class="div-3">Technology</div>
-    </div>
-    <div class="div-4">
-      <div class="div-5">{{nombre()}}</div>
-      <img
-        loading="lazy"
-        srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&"
-        class="imgHeader"
-      />
-      
-    </div>
+<div class="header">
+  <div class="header-titulo" routerLink="/" routerLinkActive="router-link-active">
+    <img
+      loading="lazy"
+      src="https://cdn.builder.io/api/v1/image/assets/TEMP/ea7dd62d8e8fb4d17c0284936f39c06de035b48c94e98884fca3beb207133606?apiKey=b9c9e80b094b48379046048594eb6c95&"
+      class="imgHeader"
+    />
+    <div class="div-3">Technology</div>
   </div>
+
+  <div class="div-4 profile-container">
+    <div class="div-5">{{nombre()}}</div>
+    <img
+      loading="lazy"
+      srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/d2fa145ac280038604f4235283c10789d60cedbba62e280f499b87a95bb397e7?apiKey=b9c9e80b094b48379046048594eb6c95&"
+      class="imgHeader profile-pic"
+    />
+    <div class="logout-box">
+      <div class="card">
+        <div class="card-header">
+          <h4>Logout</h4>
+        </div>
+        <div class="card-body">
+          <mat-icon class="mat-18">logout</mat-icon>
+          <button class="btn btn-primary" (click)="logout()">Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
