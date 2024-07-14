@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, signal, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal, SimpleChanges } from '@angular/core';
 import { Empleados } from '../../../../models/empleados';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ProyectoService } from '../../../../services/proyecto.service';
@@ -17,6 +17,8 @@ import { AlertComponent } from '../../../mat-angular/alert/alert.component';
   styleUrl: './editar-desarrollador.component.css'
 })
 export class EditarDesarrolladorComponent {
+@Output () updateEmpleado = new EventEmitter<void>();
+
   DurationInSeconds=5;
   formEmpleadoEdit: FormGroup;
   textButton= signal("Campos invalidos");
@@ -75,6 +77,7 @@ export class EditarDesarrolladorComponent {
       this.formEmpleadoEdit.reset();
       this.textButton.set("Campos invalidos")
       this.mostrarEditForm();
+      this.updateEmpleado.emit();
     },
     (error) => {
       this.errorMessage.set(error.message);

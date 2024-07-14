@@ -99,15 +99,7 @@ mostrarNuevoForm(){
           if(this.idRol() == 1){
             this.proyectoService.deleteElementoByID(elemento.idElemento).subscribe((elemento) => {
               console.log('Elemento eliminado:', elemento);
-              this.cotizacionService.getElementos()
-              .subscribe((elementos) => {
-                console.table(elementos);
-                for (let index = 0; index < elementos.length; index++) {
-                  this.dataSource = new MatTableDataSource(elementos);
-                  this.dataSource.paginator = this.paginator;
-                }
-                
-              });
+               this.loadElementos();
               
             });
           }else{
@@ -117,6 +109,7 @@ mostrarNuevoForm(){
           
         } else {
           console.log('Eliminación cancelada');
+          this.openSnackBar('Accion cancelada');
         }
       } else {
         console.log('Diálogo cerrado sin acción');

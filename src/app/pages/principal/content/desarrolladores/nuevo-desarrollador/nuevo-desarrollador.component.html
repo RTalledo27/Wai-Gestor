@@ -44,7 +44,7 @@
             </mat-form-field>
 
 
-            <div [class.buttons]="hideNuevoForm">
+            <div [class.buttons]="hideNuevoForm()">
                 <button mat-button  (click)="mostrarNuevoForm()">Regresar</button>
                 <button mat-button (click)="registrarEmpleado()">{{this.textButton()}}</button>
             </div>  

@@ -30,7 +30,7 @@ export class NuevoElementoComponent {
 
     this.formElementoNuevo = this.fb.group({
       elemento_seccion: this.fb.group({
-        nombre_elemento: ['',[Validators.required, Validators.minLength(3), Validators.pattern('^[a-zA-Z ]+$')]],
+        nombre_elemento: ['',[Validators.required, Validators.minLength(3), Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ -]+$')]],
         costo: ['',[Validators.required, Validators.min(1), Validators.pattern('^[0-9]+(\.[0-9]{1,2})?$')]],
         descripcion: ['', [Validators.required, Validators.minLength(3)]],
         isActive: 1,

@@ -100,6 +100,12 @@ private apiUrlRoles = "http://127.0.0.1:8000/api/v1/roles"
         })
       );
     }
+    
+
+    //eliminar/desactivar empleado
+    deleteEmpleadoById(idEmpleado: number): Observable<any> {
+      return this.http.delete<any>(`${this.apiUrlEmpleados}/${idEmpleado}`);
+    }
 
     //elementos:
 

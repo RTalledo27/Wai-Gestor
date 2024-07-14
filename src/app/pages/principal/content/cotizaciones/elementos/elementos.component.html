@@ -65,4 +65,4 @@
   </div>
 
   <app-nuevo-elemento (addElement)="onElementAdded()" [hideNuevoForm]="hideNuevoForm"></app-nuevo-elemento>
-  <app-editar-elemento *ngIf="hideEditForm()" [hideEditForm]="hideEditForm "[elementos]="this.elemento"></app-editar-elemento>
+  <app-editar-elemento  (updateElemento)="onElementAdded()" *ngIf="hideEditForm()" [hideEditForm]="hideEditForm "[elementos]="this.elemento"></app-editar-elemento>

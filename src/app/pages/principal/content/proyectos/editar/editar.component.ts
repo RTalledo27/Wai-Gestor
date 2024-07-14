@@ -1,4 +1,4 @@
-import { Component, Input, signal, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal, SimpleChanges } from '@angular/core';
 import { ProyectoService } from '../../../../services/proyecto.service';
 import { Proyectos } from '../../../../models/proyectos';
 import { CommonModule, NgIf } from '@angular/common';
@@ -48,6 +48,8 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './editar.component.css'
 })
 export class EditarComponent {
+
+  @Output() updateProyecto = new EventEmitter<void>();
   durationInSeconds = 5;
   formEdit: FormGroup;
   @Input({ required: true }) idProyecto: any;
@@ -279,6 +281,7 @@ export class EditarComponent {
       (proyecto) => {
         if(proyecto){
           this.openSnackBar('Proyecto actualizado correctamente','Cerrar');
+          this.updateProyecto.emit();
           console.table(proyecto);
 
         }else{

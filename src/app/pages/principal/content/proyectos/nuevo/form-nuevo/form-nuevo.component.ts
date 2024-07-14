@@ -64,7 +64,7 @@ export class FormNuevoComponent {
   total = signal<number>(0);
 
   fecha = new Date();
-  valueFecha = formatDate(this.fecha, 'dd-MM-AAAA', 'en-US');
+  valueFecha = formatDate(this.fecha, 'YYYY-MM-dd', 'en-US');
 
   constructor(
     private proyectoService: ProyectoService,

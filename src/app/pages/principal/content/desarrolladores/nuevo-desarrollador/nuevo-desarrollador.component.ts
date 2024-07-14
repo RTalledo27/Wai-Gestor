@@ -1,4 +1,4 @@
-import { Component, Input, signal, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -18,6 +18,9 @@ import { ProyectoService } from '../../../../services/proyecto.service';
 })
 export class NuevoDesarrolladorComponent {
 
+
+  @Output() addEmpleado = new EventEmitter<void>();
+
   formNuevoDesarrollador: FormGroup;
   empleados: Empleados[] = [];
   roles: Roles[] = [];
@@ -35,7 +38,7 @@ export class NuevoDesarrolladorComponent {
         contraseña: ['',[Validators.required, Validators.minLength(8)]],
         idRol: ['',[Validators.required, Validators.minLength(3)]],
        confirmar_contraseña: ['',[Validators.required, Validators.minLength(8)]],
-
+        isActive: 1
       }),
 
 
@@ -94,6 +97,7 @@ export class NuevoDesarrolladorComponent {
       this.proyectoService.registrarEmpleado(empleadoData).subscribe((empleado) => {
         this.mostrarNuevoForm();
         this.empleados.push(empleado);
+        this.addEmpleado.emit();
         console.log('Empleado registrado');
       });
 

@@ -41,7 +41,7 @@
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef>  </th>
         <td mat-cell *matCellDef="let elemento"> 
-            <button mat-icon-button> <mat-icon>delete</mat-icon></button>
+            <button mat-icon-button (click)="this.openDialogCard(elemento)"> <mat-icon>delete</mat-icon></button>
         </td>
       </ng-container>
   
@@ -62,5 +62,5 @@
   </div>
 
 
-  <app-nuevo-desarrollador [hideNuevoForm]="hideNuevoForm"></app-nuevo-desarrollador>
-  <app-editar-desarrollador *ngIf="hideEditForm()" [hideEditForm]="hideEditForm " [desarrollador]="this.empleados"></app-editar-desarrollador>
+  <app-nuevo-desarrollador (addEmpleado)="onEmpleadoAdded()" [hideNuevoForm]="hideNuevoForm"></app-nuevo-desarrollador>
+  <app-editar-desarrollador (updateEmpleado)="onEmpleadoAdded()" *ngIf="hideEditForm()" [hideEditForm]="hideEditForm " [desarrollador]="this.empleados"></app-editar-desarrollador>

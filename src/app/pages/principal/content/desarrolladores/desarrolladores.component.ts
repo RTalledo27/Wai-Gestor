@@ -15,12 +15,14 @@ import { LoginService } from '../../../services/login.service';
 import { find } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertComponent } from '../../mat-angular/alert/alert.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogCardComponent } from '../../mat-angular/dialog-card/dialog-card.component';
 @Component({
     selector: 'app-desarrolladores',
     standalone: true,
     templateUrl: './desarrolladores.component.html',
     styleUrl: './desarrolladores.component.css',
-    imports: [NuevoDesarrolladorComponent, MatTableModule, NgFor, MatIcon, MatPaginatorModule, MatInputModule, MatFormFieldModule, MatSortModule, CommonModule, EditarDesarrolladorComponent, ]
+    imports: [NuevoDesarrolladorComponent, MatTableModule, NgFor, MatIcon, MatPaginatorModule, MatInputModule, MatFormFieldModule, MatSortModule, CommonModule, EditarDesarrolladorComponent,DialogCardComponent ]
 })
 export class DesarrolladoresComponent {
   displayedColumns: string[] = ['nombre','dni','correo','edit','delete'];
@@ -32,21 +34,14 @@ empleados: Empleados[] = [];
   idRol= signal(0);
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
-  constructor(private proyectoService: ProyectoService, private loginService: LoginService,  private snackBar: MatSnackBar) {
+  constructor(private proyectoService: ProyectoService, private loginService: LoginService,  private snackBar: MatSnackBar, private dialog: MatDialog) {
 
   }
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
     this.dataLogin();
-    this.proyectoService.getEmpleados()
-      .subscribe((empleados) => {
-        console.table(empleados);
-        for (let index = 0; index < empleados.length; index++) {
-          this.dataSource = new MatTableDataSource(empleados);
-          this.dataSource.paginator = this.paginator;
-        }
-      });
+    this.loadempleados();
   }
 
 
@@ -97,6 +92,37 @@ empleados: Empleados[] = [];
     });
   }
 
+
+
+  openDialogCard(desarrollador:Empleados){
+    const dialogRef = this.dialog.open(DialogCardComponent, {
+      width: '300px'
+    });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result!==undefined){
+        if(result){
+          if(this.idRol() == 1){
+            this.proyectoService.deleteEmpleadoById(desarrollador.idEmpleado).subscribe((desarrollador) => {
+              console.log('Desarrollador eliminado:', desarrollador);
+              this.openSnackBar("Desarrollador eliminado");
+              this.loadempleados();
+            });
+          }else{
+            this.openSnackBar("No tienes permisos para eliminar un elemento");
+          }
+        }else {
+          console.log('Eliminación cancelada');
+          this.openSnackBar('Accion cancelada');
+        }
+      } else {
+        console.log('Diálogo cerrado sin acción');
+        // Puedes mostrar un mensaje al usuario o realizar alguna otra acción
+      }
+    });
+  }
+
   
 
   openSnackBar(message: string) {
@@ -105,7 +131,21 @@ empleados: Empleados[] = [];
       duration: 5000,
      
     })
+
   }
 
+  loadempleados(){
+    this.proyectoService.getEmpleados()
+    .subscribe((empleados) => {
+      console.table(empleados);
+      for (let index = 0; index < empleados.length; index++) {
+        this.dataSource = new MatTableDataSource(empleados);
+        this.dataSource.paginator = this.paginator;
+      }
+    });
+  }
+  onEmpleadoAdded(){
+    this.loadempleados();
+  }
 
 }

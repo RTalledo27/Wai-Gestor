@@ -1,4 +1,4 @@
-import { Component, Input, output, Output, Signal, signal, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, output, Output, Signal, signal, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -18,6 +18,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class EditarElementoComponent {
 
+
+  @Output() updateElemento = new EventEmitter<void>();
+
   formElementoEdit: FormGroup;
 
   textButton= signal("Campos invalidos");
@@ -30,7 +33,7 @@ export class EditarElementoComponent {
     this.formElementoEdit = this.fb.group({
       elemento_seccion: this.fb.group({
         idElemento: ['',[Validators.required]],
-        nombre_elemento: ['',[Validators.required, Validators.minLength(3), Validators.pattern('^[a-zA-Z ]+$')]],
+        nombre_elemento: ['',[Validators.required, Validators.minLength(3), Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ -]+$')]],
         costo: ['',[Validators.required, Validators.min(1), Validators.pattern('^[0-9]+(\.[0-9]{1,2})?$')]],
         descripcion: ['', [Validators.required, Validators.minLength(3)]]
       }),
@@ -73,7 +76,7 @@ export class EditarElementoComponent {
         if(elemento){
           this.openSnackBar("Elemento actualizado correctamente📝");
         this.mostrarEditForm();
-
+          this.updateElemento.emit();
         }
         
     });
