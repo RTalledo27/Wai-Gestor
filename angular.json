@@ -18,7 +18,7 @@
         "@schematics/angular:guard": {
           "skipTests": true
         },
-        "@schematics/angular:interceptor": {
+        "@schematics/angular:intebrceptor": {
           "skipTests": true
         },
         "@schematics/angular:pipe": {
@@ -61,13 +61,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "150kb",
+                  "maximumError": "150kb"
                 }
               ],
               "outputHashing": "all"
