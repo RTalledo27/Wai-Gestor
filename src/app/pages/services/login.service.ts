@@ -9,7 +9,7 @@ import { Empleados } from '../models/empleados';
 })
 export class LoginService {
 
-  urlApiLogin = "http://10.40.194.131:8000/api/auth/login";
+  urlApiLogin = "https://api-wai-production-9813.up.railway.app/api/auth/login";
   urlApiMe = "http://127.0.0.1:8000/api/auth/me/";
 
   constructor(private http: HttpClient) { 
