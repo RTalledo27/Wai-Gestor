@@ -52,6 +52,7 @@ export class ProyectosComponent {
   ];
   dataSource: any = [];
   idProyecto = signal(0);
+  idCotizacion = signal(0);
   proyectos: Proyectos[] = [];
   cotizacion!: Cotizaciones;
   cliente!: Clientes;
@@ -93,6 +94,10 @@ export class ProyectosComponent {
     if (clickedRows) {
       this.idProyecto.set(clickedRows.idProyecto);
       this.visible = !this.visible;
+      this.cotizacionService.getCotizacionByID(clickedRows.idProyecto).subscribe((cotizacion) => {
+        this.idCotizacion.set(cotizacion.idCotizacion);
+        
+      });
     } else {
       console.warn(
         'idProyecto no está definido o es inaccesible en clickedRows.'
@@ -188,7 +193,7 @@ pdfContent.style.padding = "20px";
         <img src="assets/img/wai-logo.svg" alt="waiLogo" > 
         <h1 style="margin: 0; font-size: 28px;">Wai Technology</h1> 
     </div>
-    <h1 style="color: #004080; font-size: 28px; margin-bottom: 10px;">Detalles de la cotización #${cotizacion[0].idCotizacion}</h1> 
+    <h1 style="color: #004080; font-size: 28px; margin-bottom: 10px;">Detalles de la cotización #${cotizacion.idCotizacion}</h1> 
     <p style="line-height: 1.6; margin-bottom: 20px;">Estimado(a): ${cliente.nombre_cliente}</p>
     <p style="line-height: 1.6; margin-bottom: 20px;">Adjuntamos los detalles de su cotización y Proyecto:</p>
 
@@ -234,19 +239,19 @@ pdfContent.style.padding = "20px";
             </tr>
         </thead>
         <tbody>
-            ${cotizacion[0].elementos.map((item: any, index: number) => `
+            ${cotizacion.elementos.map((item: any, index: number) => `
                 <tr style="background-color: ${index % 2 === 0 ? '#f9f9f9' : '#fff'};"> 
                     <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${item.elemento.nombre_elemento}</td>
                     <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${item.elemento.descripcion}</td>
                     <td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">${item.elemento.costo}</td>
-                    <td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">${cotizacion[0].descuento}</td>
+                    <td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">${cotizacion.descuento}</td>
                 </tr>
             `).join('')}
         </tbody>
         <tfoot>
             <tr>
                 <th colspan="3" style="background-color: #f4f4f4; font-size: 16px; color: #333; padding: 10px; text-align: left;">Total:</th>
-                <th style="background-color: #f4f4f4; font-size: 16px; color: #333; padding: 10px; text-align: right;">${cotizacion[0].total}</th>
+                <th style="background-color: #f4f4f4; font-size: 16px; color: #333; padding: 10px; text-align: right;">${cotizacion.total}</th>
             </tr>
         </tfoot>
     </table>

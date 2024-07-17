@@ -6,14 +6,14 @@ import { FormGroup, FormControl, ReactiveFormsModule, Validators, FormBuilder } 
 import { Empleados } from '../../../../models/empleados';
 import { Cotizaciones } from '../../../../models/cotizaciones';
 import { CotizacionService } from '../../../../services/cotizacion.service';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatAutocomplete, MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
 import { MatOption } from '@angular/material/core';
 import { Elementos } from '../../../../models/elementos';
-import { map, Observable, startWith } from 'rxjs';
+import { forkJoin, map, Observable, startWith } from 'rxjs';
 import { MatDivider } from '@angular/material/divider';
 import { MatList, MatListItem } from '@angular/material/list';
 import { EstadoService } from '../../../../services/estado.service';
@@ -23,6 +23,10 @@ import { ClienteService } from '../../../../services/cliente.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertComponent } from '../../../mat-angular/alert/alert.component';
 import { MatIcon } from '@angular/material/icon';
+import { fechaFinValidator, fechaInicioValidator, validDateValidator } from '../../../../validaciones/custom-validators';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import { ElementosCotizacion } from '../../../../models/elementos_cotizacion';
+
 
 @Component({
   selector: 'app-editar',
@@ -42,7 +46,10 @@ import { MatIcon } from '@angular/material/icon';
     MatDivider,
     MatList,
     MatListItem,
-    MatIcon
+    MatIcon,MatError,
+    MatDatepicker,
+    MatDatepickerModule,
+    ReactiveFormsModule
   ],
   templateUrl: './editar.component.html',
   styleUrl: './editar.component.css'
@@ -53,6 +60,7 @@ export class EditarComponent {
   durationInSeconds = 5;
   formEdit: FormGroup;
   @Input({ required: true }) idProyecto: any;
+  @Input({required: true}) idCotizacion: any;
   visible = true;
   myControl = new FormControl('');
   elementos: Elementos[] = [];
@@ -62,37 +70,38 @@ export class EditarComponent {
   descuento = signal<number>(0);
   total = signal<number>(0);
   filteredOptions: Observable<string[]> | undefined;
+  loadingComplete = false;
 
   constructor(private proyectoService: ProyectoService, private clienteService: ClienteService,private cotizacionService: CotizacionService, private estadoService: EstadoService, private fb: FormBuilder, private _snackBar: MatSnackBar) {
     this.formEdit = this.fb.group({
       proyecto_seccion: this.fb.group({
-        nombre_proyecto: ['', Validators.required],
-        descripcion: ['', Validators.required],
-        fecha_inicio: ['', Validators.required],
-        fecha_fin: ['', Validators.required],
+        nombre_proyecto: ['' ],
+        descripcion: [''],
+        fecha_inicio: ['' ],
+        fecha_fin: ['' ],
       }),
       cliente_seccion: this.fb.group({
-        idCliente: ['', Validators.required],
-        nombre_cliente: ['', Validators.required],
-        correo_cliente: ['', Validators.required],
-        telefono_cliente: ['', Validators.required],
-        dni_cliente: ['', Validators.required],
+        idCliente: ['' ],
+        nombre_cliente: ['' ],
+        correo_cliente: ['' ],
+        telefono_cliente: ['' ],
+        dni_cliente: ['' ],
       }),
       empleado_seccion: this.fb.group({
-        idEmpleado: ['', Validators.required],
-        nombre_empleado: ['', Validators.required],
-        dni_empleado: ['', Validators.required],
-        correo_empleado: ['', Validators.required],
+        idEmpleado: [''],
+        nombre_empleado: ['' ],
+        dni_empleado: [''],
+        correo_empleado: ['' ],
       }),
       estado_seccion: this.fb.group({
-        idEstado: ['', Validators.required],
+        idEstado: ['' ],
         estado: ['']
       }),
       cotizacion_seccion: this.fb.group({
         fecha: new Date(),
-        subtotal: [0, Validators.required],
-        descuento: [0, Validators.required],
-        total: [0, Validators.required],
+        subtotal: [0 ],
+        descuento: [0],
+        total: [0 ],
       })
     });
   }
@@ -102,33 +111,10 @@ export class EditarComponent {
   cotizacion: Cotizaciones[] = [];
 
   ngOnInit(): void {
-    this.proyectoService.getProyecto(this.idProyecto).subscribe((proyecto) => {
-      this.proyecto.push(proyecto);
-      this.proyectoService.getEmpleados().subscribe((empleados) => {
-        this.empleados = empleados;
-        this.loadCotizacion(this.idProyecto);
-        this.formEdit.patchValue({
-          proyecto_seccion: proyecto,
-          cliente_seccion: proyecto.cliente,
-          empleado_seccion: proyecto.empleado,
-          estado_seccion: proyecto.estado,
-        });
-      });
-    });
+    //CARGAR DATA DEL FORMULARIO DE EDITAR CON LOS DATOS DEL PROYECTO
+    this.loadDataEditForm();
 
-    this.proyectoService.getElementos().subscribe((elementos) => {
-      this.elementos = elementos;
-      this.filteredOptions = this.myControl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(value || ''))
-      );
-    });
-
-
-    this.estadoService.getEstados().subscribe((estados) => {
-      this.estados = estados;
-    });
-    
+   
   }
 
   private _filter(value: string): string[] {
@@ -144,6 +130,7 @@ export class EditarComponent {
 
   changeValueDescuento(event: KeyboardEvent) {
     const descuentoElement = event.target as HTMLInputElement;
+    alert(this.subTotal())
     const descuentoValue = Number(descuentoElement.value);
     this.descuento.set(descuentoValue);
     const newTotal = this.subTotal() - this.descuento();
@@ -153,64 +140,69 @@ export class EditarComponent {
   }
 
   addElemento(event: MatAutocompleteSelectedEvent) {
+    console.log('Event:', event);
+    console.log('Event Option ViewValue:', event.option.viewValue);
+    console.log('Elementos disponibles:', this.elementos);
+
     const elemento = this.elementos.find(elemento => elemento.nombre_elemento === event.option.viewValue);
-    if (elemento && !this.selectedElementos.includes(elemento)) {
-      this.selectedElementos = [...this.selectedElementos, elemento];
-      this.subTotal.set(Number(this.subTotal()) + Number((elemento.costo || 0)));
-      this.formEdit.get('cotizacion_seccion')?.get('subtotal')?.patchValue(this.subTotal());
-      this.total.set(this.subTotal() - this.descuento());
-      this.formEdit.get('cotizacion_seccion')?.get('total')?.patchValue(this.total());
-      this.formEdit.get('cotizacion_seccion')?.get('elementos')?.patchValue(this.selectedElementos);
-      this.myControl.reset();
+    console.log('Elemento encontrado:', elemento);
+
+    if (elemento) {
+      if (!this.selectedElementos.some(e => e.idElemento === elemento.idElemento)) {
+        this.selectedElementos = [...this.selectedElementos, elemento];
+        const descuento = this.formEdit.get('cotizacion_seccion')?.get('descuento')?.value;
+        // Recalcular el subtotal y el total
+        const nuevoSubTotal = this.selectedElementos.reduce((sum, elem) => sum + Number(elem.costo), 0);
+        this.descuento.set(descuento);
+        const descuentoAplicado = this.descuento(); // Asumiendo que descuento() devuelve un número
+        const nuevoTotal = nuevoSubTotal - descuentoAplicado;
+       
+        // Actualizar los valores
+        this.subTotal.set(nuevoSubTotal);
+        this.total.set(nuevoTotal);
+
+        // Actualizar el formulario
+        this.formEdit.get('cotizacion_seccion')?.get('subtotal')?.patchValue(nuevoSubTotal);
+        this.formEdit.get('cotizacion_seccion')?.get('total')?.patchValue(nuevoTotal);
+        this.formEdit.get('cotizacion_seccion')?.get('elementos')?.patchValue(this.selectedElementos);
+        this.myControl.reset();
+      } else {
+        alert('Elemento ya seleccionado');
+      }
     } else {
-      alert('Elemento ya seleccionado');
+        console.error('Elemento no encontrado');
     }
     console.log(this.subTotal());
-  }
-
+}
   loadCotizacion(idProyecto: number) {
     console.log('Loading cotizacion for idProyecto:', idProyecto);
     this.loadElementos(idProyecto);
-    this.cotizacionService.getCotizacionByID(idProyecto).subscribe(
-      (cotizacion) => {
-        console.log('Cotizacion received:', cotizacion);
-        
-        if (cotizacion) {
-          // Rellenar el formulario con los datos de la cotización
-          this.formEdit.get('cotizacion_seccion')?.patchValue(cotizacion);
-
-          // Verificar y asignar los elementos
-          const elementos = cotizacion.elementos || cotizacion['elementos'] || [];
-          if (elementos && Array.isArray(elementos) && elementos.length > 0) {
-            console.log('Elementos encontrados:', elementos);
-            this.selectedElementos = elementos.map(e => e.nombre_elemento);
-          } else {
-            console.log('No se encontraron elementos');
-            this.selectedElementos = [];
-          }
-
-          // Mostrar la tabla de elementos para depuración
-          console.table(this.selectedElementos);
-        } else {
-          console.log('Sin cotizaciones para el proyecto:', idProyecto);
-        }
-      },
-      (error) => {
-        console.error('Error retrieving cotizacion:', error);
-      }
-    );
+    
   }
 
 
   deleteElemento(elemento: Elementos) {
-    this.selectedElementos = this.selectedElementos.filter(e => e.idElemento !== elemento.idElemento);
-    console.log(this.selectedElementos);
-    this.subTotal.set(this.subTotal() - elemento.costo);
-    this.total.set(this.total() - elemento.costo);
-    this.formEdit.get('cotizacion_seccion')?.get('subtotal')?.patchValue(this.subTotal());
-    this.formEdit.get('cotizacion_seccion')?.get('descuento')?.patchValue(this.descuento());
-    this.formEdit.get('cotizacion_seccion')?.get('total')?.patchValue(this.total());
-    this.formEdit.get('cotizacion_seccion')?.get('elementos')?.patchValue(this.selectedElementos);
+     // Filtrar los elementos para eliminar el seleccionado
+     this.selectedElementos = this.selectedElementos.filter(e => e.idElemento !== elemento.idElemento);
+    
+     // Recalcular los valores de subtotal y total
+     const nuevoSubTotal = this.selectedElementos.reduce((sum, elem) => sum + Number(elem.costo), 0);
+     const nuevoTotal = nuevoSubTotal - this.descuento();
+ 
+     // Actualizar los valores
+     this.subTotal.set(nuevoSubTotal);
+     this.total.set(nuevoTotal);
+ 
+     // Actualizar el formulario
+     this.formEdit.get('cotizacion_seccion')?.get('subtotal')?.patchValue(nuevoSubTotal);
+     this.formEdit.get('cotizacion_seccion')?.get('total')?.patchValue(nuevoTotal);
+     this.formEdit.get('cotizacion_seccion')?.get('elementos')?.patchValue(this.selectedElementos);
+     
+     this.deleteElementos(this.idCotizacion);
+     console.log('Elemento eliminado:', elemento);
+     console.log('Elementos seleccionados:', this.selectedElementos);
+     console.log('Nuevo Subtotal:', nuevoSubTotal);
+     console.log('Nuevo Total:', nuevoTotal);
   }
 
   changeValueEstado(event: MatSelectChange) {
@@ -248,59 +240,105 @@ export class EditarComponent {
     
   }
 
-  actualizarProyecto(){
+  actualizarProyecto() {
     const proyecto = this.formEdit.get('proyecto_seccion')?.value;
     const cliente = this.formEdit.get('cliente_seccion')?.value;
     const empleado = this.formEdit.get('empleado_seccion')?.value;
     const estado = this.formEdit.get('estado_seccion')?.value;
     const cotizacion = this.formEdit.get('cotizacion_seccion')?.value;
-   // cotizacion['elementos'] = this.selectedElementos;
+    
+    // Agregar elementos seleccionados a la cotización
+    cotizacion.elementos = this.selectedElementos;
 
-   console.log(cotizacion);
+    console.log(cotizacion);
+    
+    // Crear el objeto combinado para actualizar el proyecto
     const proyectoActualizado = {
-      ...proyecto,
-      empleado: empleado.idEmpleado,
-      idEstado: estado.idEstado,
-      cotizacion
+        ...proyecto,
+        idEmpleado: empleado.idEmpleado,
+        idEstado: estado.idEstado,
+        idCliente: cliente.idCliente,
+        cotizacion: {
+            idCotizacion: cotizacion.idCotizacion,
+            fecha_cotizacion: cotizacion.fecha_cotizacion,
+            subtotal: cotizacion.subtotal,
+            descuento: cotizacion.descuento,
+            total: cotizacion.total,
+            elementos: cotizacion.elementos
+        }
     };
 
-    const clienteActualizado = {
-      ...cliente,
-      idCliente: cliente.idCliente
-      
-    };
+    const cotizacionData= {
+      ...cotizacion,
+      idProyecto: this.idProyecto,
+      idEstado: cotizacion.id,
+      idEmpleado: empleado.idEmpleado,
+      idCliente: cliente.idCliente,
+      elementos: this.selectedElementos
 
-    console.table(clienteActualizado);
+    }
+
     console.table(proyectoActualizado);
 
+    // Actualizar el cliente, luego el proyecto y finalmente la cotización
+    this.clienteService.updateCliente(cliente.idCliente, cliente).subscribe(
+        () => {
+            this.proyectoService.updateProyecto(this.idProyecto, proyectoActualizado).subscribe(
+                (proyecto) => {
+                    if (proyecto) {
+                          
+                      this.cotizacionService.updateCotizacion(this.idProyecto, cotizacionData).subscribe(
+                        (cotizacionActualizada) => {
+                            console.log('Cotización actualizada exitosamente', cotizacionActualizada);
+                            // Aquí puedes redirigir al usuario o mostrar un mensaje de éxito
+                            this.openSnackBar('Cotización actualizada exitosamente', 'Cerrar');
+                            if(cotizacionActualizada){
+                              this.selectedElementos.forEach(elemento => {
+                                 const elemento_cotizacionData= {
+                                  idCotizacion: cotizacionActualizada.idCotizacion,
+                                  idElemento: Number(elemento.idElemento),
 
-    this.clienteService.updateCliente(cliente.idCliente,clienteActualizado).subscribe(
+                                 }
+                                 this.cotizacionService.registrarElemento_cotizacion(elemento_cotizacionData as unknown as Elementos).subscribe({
+                                  next: (elemento_cotizacion) => {
+                                      console.log('Elemento cotización registrado:', elemento_cotizacion);
+                                  }
+                                    
+                                  
 
-      () => {
-        this.proyectoService.updateProyecto(this.idProyecto,proyectoActualizado).subscribe(
-      (proyecto) => {
-        if(proyecto){
-          this.openSnackBar('Proyecto actualizado correctamente','Cerrar');
-          this.updateProyecto.emit();
-          console.table(proyecto);
+                                  
+                              });
 
-        }else{
-          this.openSnackBar('Error al actualizar el proyecto','Cerrar');
-          console.table(proyecto);
-        }
-
+                            }
+                            );
+                            this.updateProyecto.emit()
+                            this.openSnackBar('Elementos registrados exitosamente', 'Cerrar');
+                            }
+                        },
+                        (errorCotizacion) => {
+                            console.error('Error al actualizar la cotización:', errorCotizacion);
+                            this.openSnackBar('Error al actualizar la cotización', 'Cerrar');
+                        }
+                    );
+                            
+                        
+                    } else {
+                        this.openSnackBar('Error al actualizar el proyecto', 'Cerrar');
+                        console.table(proyecto);
+                    }
+                },
+                (error) => {
+                    console.error('Error al actualizar el proyecto:', error);
+                    this.openSnackBar('Error al actualizar el proyecto', 'Cerrar');
+                }
+            );
         },
-      (error) => {
-        console.error('Error updating proyecto:', error);
-      }
+        (error) => {
+            console.error('Error al actualizar el cliente:', error);
+            this.openSnackBar('Error al actualizar el cliente', 'Cerrar');
+        }
     );
-      },
-      (error) => {
-        console.error('Error updating cliente:', error);
-      }
-    );
-    
-  }
+}
 
   openSnackBar(message: string, action: string) {
     this._snackBar.openFromComponent(AlertComponent, {
@@ -313,9 +351,145 @@ export class EditarComponent {
   //CARGAR ELEMENTOS SELECCIONADOS
 
   loadElementos(idProyecto: number) {
-    const elementos = this.cotizacionService.getCotizacionByID(idProyecto)
-    .pipe(map(cotizacion => cotizacion.elementos) );
-     console.log(elementos);
+    this.cotizacionService.getCotizacionByID(idProyecto).subscribe((cotizacion) => {
+        console.log('Cotización recibida:', cotizacion); // Verifica la estructura de los datos recibidos
+        if (cotizacion) {
+            this.formEdit.get('cotizacion_seccion')?.patchValue(cotizacion);
+            const elementos = cotizacion.elementos ?? [];
+
+            if (elementos.length > 0) {
+                console.log('Elementos encontrados:', elementos);
+                this.selectedElementos = elementos.map((elem: any) => {
+                    console.log('Elemento recibido:', elem); // Verifica cada elemento individualmente
+                
+                    return {
+                        idElemento: elem.idElemento,
+                        nombre_elemento: elem.elemento?.nombre_elemento,
+                        descripcion: elem.elemento?.descripcion,
+                        costo: elem.elemento?.costo,
+                        isActive: elem.elemento?.isActive
+                    };
+                });
+                console.log('Elementos seleccionados:', this.selectedElementos);
+            } else {
+                console.log('No se encontraron elementos');
+                this.selectedElementos = [];
+            }
+            console.table(this.selectedElementos);
+
+            // Calcular el subtotal después de cargar los elementos
+            const subtotal = this.selectedElementos.reduce((acc, elem) => acc + elem.costo, 0);
+            const descuento = 
+            console.log('Subtotal elementos seleccionados:', subtotal, this.descuento());
+            const total = subtotal - this.descuento();
+            //ASIGNAR VALIR A SIGNAL
+            this.subTotal.set(subtotal);
+            this.total.set(total);
+
+            
+        } else {
+            console.log('Sin cotizaciones para el proyecto:', idProyecto);
+        }
+    });
+}
+
+
+
+  //CARGAR DATA DEL FORMULARIO DE EDITAR CON LOS DATOS DEL PROYECTO
+  loadDataEditForm(){
+   // Usar forkJoin para esperar a que todas las solicitudes se completen
+  forkJoin([
+    this.proyectoService.getProyecto(this.idProyecto),
+    this.proyectoService.getEmpleados(),
+    this.proyectoService.getElementos(),
+    this.estadoService.getEstados()
+  ]).subscribe(([proyecto, empleados, elementos, estados]) => {
+    // Procesar los datos recibidos
+    this.proyecto.push(proyecto);
+    this.empleados = empleados;
+    this.elementos = elementos;
+    this.estados = estados;
+
+    // Configurar el formulario con los datos del proyecto
+    this.formEdit.patchValue({
+      proyecto_seccion: proyecto,
+      cliente_seccion: proyecto.cliente,
+      empleado_seccion: proyecto.empleado,
+      estado_seccion: proyecto.estado,
+    });
+
+    // Configurar las opciones filtradas
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || ''))
+    );
+
+    // Indicar que la carga de datos está completa
+    this.loadingComplete = true;
+
+    // Llamar a la función de validación
+    this.validateForm();
+
+    this.loadCotizacion(this.idProyecto);
+  });
+}
+
+// VALIDAR FORMULARIO
+validateForm() {
+  if (this.loadingComplete) {
+    const fechaInicioControl = this.formEdit.get('proyecto_seccion.fecha_inicio');
+    const fechaFinControl = this.formEdit.get('proyecto_seccion.fecha_fin');
+
+    if (fechaInicioControl && fechaFinControl) {
+      fechaFinControl.setValidators([Validators.required, validDateValidator(), fechaFinValidator(fechaInicioControl)]);
+      fechaFinControl.updateValueAndValidity();
+    }
+    // Sección proyecto
+    this.formEdit.get('proyecto_seccion.nombre_proyecto')?.setValidators([Validators.required]);
+    this.formEdit.get('proyecto_seccion.descripcion')?.setValidators([Validators.required]);
+    this.formEdit.get('proyecto_seccion.fecha_inicio')?.setValidators([Validators.required, validDateValidator(),fechaInicioValidator()]);
+    this.formEdit.get('proyecto_seccion.fecha_fin')?.setValidators([Validators.required, validDateValidator()]);
+    
+    // Sección cliente
+    this.formEdit.get('cliente_seccion.nombre_cliente')?.setValidators([Validators.required, Validators.pattern('^[a-zA-Z ]+$')]);
+    this.formEdit.get('cliente_seccion.correo_cliente')?.setValidators([Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]);
+    this.formEdit.get('cliente_seccion.telefono_cliente')?.setValidators([Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern('^[0-9]+$')]);
+    this.formEdit.get('cliente_seccion.dni_cliente')?.setValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern('^[0-9]+$')]);
+    
+    // Sección empleado
+    this.formEdit.get('empleado_seccion.nombre_empleado')?.setValidators([Validators.required]);
+    this.formEdit.get('empleado_seccion.correo_empleado')?.setValidators([Validators.required, Validators.email]);
+    this.formEdit.get('empleado_seccion.dni_empleado')?.setValidators([Validators.required]);
+    
+    // Sección estado
+    this.formEdit.get('estado_seccion.estado')?.setValidators([Validators.required]);
+    
+    // Sección cotización
+    this.formEdit.get('cotizacion_seccion.subtotal')?.setValidators([Validators.required]);
+    this.formEdit.get('cotizacion_seccion.descuento')?.setValidators([Validators.required]);
+    this.formEdit.get('cotizacion_seccion.total')?.setValidators([Validators.required]);
+
+    // Actualizar validez y valor de todo el formulario
+    this.formEdit.updateValueAndValidity();
+
+   
   }
+}
+
+
+
+///ELIMINAR ELEMENTO DE BASE DE DATOS
+deleteElementos(idCotizacion: number) {
+  this.cotizacionService.deleteElementos(idCotizacion).subscribe(
+    () => {
+      console.log('Elemento eliminado exitosamente');
+      this.openSnackBar('Elemento eliminado exitosamente', 'Cerrar');
+    }
+  );
+}
+
 
 }
+
+
+

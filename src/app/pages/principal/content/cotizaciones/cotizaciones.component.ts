@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, signal, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, SimpleChanges, ViewChild} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -19,72 +19,89 @@ import { LoginService } from '../../../services/login.service';
 @Component({
   selector: 'app-cotizaciones',
   standalone: true,
-  imports: [ElementosComponent,MatTableModule,NgFor, MatIcon,MatPaginatorModule,MatInputModule,MatFormFieldModule,MatSortModule,CommonModule,MatFormFieldModule, MatInputModule,AlertComponent ],
+  imports: [
+    ElementosComponent,
+    MatTableModule,
+    NgFor,
+    MatIcon,
+    MatPaginatorModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSortModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    AlertComponent
+  ],
   templateUrl: './cotizaciones.component.html',
-  styleUrl: './cotizaciones.component.css'
+  styleUrls: ['./cotizaciones.component.css']
 })
 export class CotizacionesComponent {
   durationInSeconds = 5;
-
- 
-  displayedColumns: string[] = ['Proyecto', 'Descripcion', 'Servicios','Costos', 'SubTotal','Descuento','Total','acciones'];
-  dataSource: any = [];
+  displayedColumns: string[] = ['Proyecto', 'Descripcion', 'Servicios', 'Costos', 'SubTotal', 'Descuento', 'Total', 'acciones'];
+  dataSource = new MatTableDataSource<Cotizaciones>();
   cotizaciones: Cotizaciones[] = [];
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
-  constructor(private cotizacionService: CotizacionService, private sendEmailServcice: EmailSendService,private _snackBar: MatSnackBar,) {}
-
+  constructor(
+    private cotizacionService: CotizacionService,
+    private sendEmailServcice: EmailSendService,
+    private _snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit() {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
     this.dataSource.paginator = this.paginator;
-
-   
-
-      /*this.cotizaciones = cotizaciones;
-      for (let index = 0; index < cotizaciones.length; index++) {
-        this.dataSource = new MatTableDataSource(cotizaciones);
-        this.dataSource.paginator = this.paginator;
-        console.table(this.dataSource);
-      
-        }*/
-        this.loadCotizaciones();
-
+    this.dataSource.filterPredicate = this.createFilter();
+    this.loadCotizaciones();
   }
 
   loadCotizaciones() {
-    this.cotizacionService.getCotizaciones()
-    .subscribe((cotizaciones) => {
+    this.cotizacionService.getCotizaciones().subscribe((cotizaciones) => {
       this.cotizaciones = cotizaciones;
-      this.dataSource = new MatTableDataSource(cotizaciones);
-      this.dataSource.paginator = this.paginator;
+      this.dataSource.data = cotizaciones;
+      console.table(this.cotizaciones);
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    console.log(changes);
+  createFilter(): (data: Cotizaciones, filter: string) => boolean {
+    return (data: Cotizaciones, filter: string): boolean => {
+      const searchString = filter.trim().toLowerCase();
+
+      // Helper function to convert dates to strings
+      const formatDate = (date: Date) => date.toISOString().split('T')[0];
+
+      const matchProject = (data.proyecto?.nombre_proyecto?.toLowerCase().includes(searchString) ?? false) ||
+                           (data.proyecto?.descripcion?.toLowerCase().includes(searchString) ?? false) ||
+                           (data.proyecto?.idProyecto?.toString().includes(searchString) ?? false);
+
+      const matchElementos = data.elementos?.some(el => el.elementos?.[0].nombre_elemento?.toLowerCase().includes(searchString) ?? false) ||
+                             data.elementos?.some(el => el.elementos?.[0].costo?.toString().includes(searchString) ?? false);
+
+      const matchFechaCotizacion = formatDate(new Date(data.fecha_cotizacion)).includes(searchString);
+
+      return matchProject ||
+             matchElementos ||
+             (data.descuento?.toString().includes(searchString) ?? false) ||
+             matchFechaCotizacion ||
+             (data.idCotizacion?.toString().includes(searchString) ?? false) ||
+             (data.subtotal?.toString().includes(searchString) ?? false) ||
+             (data.total?.toString().includes(searchString) ?? false);
+    };
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-
   }
 
-
-  enviarEmail(idProyecto: number){
-   this.sendEmailServcice.sendEmail(idProyecto).subscribe((data) => {
-     if(data){
-      this.openSnackBar("Correo enviado correctamente📩");
-     }
-   }); 
+  enviarEmail(idProyecto: number) {
+    this.sendEmailServcice.sendEmail(idProyecto).subscribe((data) => {
+      if (data) {
+        this.openSnackBar("Correo enviado correctamente📩");
+      }
+    });
   }
-
 
   openSnackBar(message: string) {
     this._snackBar.openFromComponent(AlertComponent, {
@@ -92,9 +109,4 @@ export class CotizacionesComponent {
       data: { message: message }
     });
   }
- 
-  
-
 }
-
-

@@ -1,185 +1,192 @@
-
 <form [formGroup]="formEdit" class="container-edit"> 
-    <!--Seccion Proyectos-->
-    <div class="container-project">
-        <div>
-            <span>Seccion: Proyecto</span>
-            <div formGroupName="proyecto_seccion">
-           
-            <label for="nombre_proyecto">Nombre:</label>
-            <input type="text" id="nombre_proyecto" formControlName="nombre_proyecto"  >
+  <!-- Fila 1 -->
+  <div class="row">
+      <!--Seccion Proyectos-->
+      <div class="container-section">
+          <h2>Sección: Proyecto</h2>
+          <div formGroupName="proyecto_seccion">
+              <label for="nombre_proyecto">Nombre:</label>
+              <input type="text" id="nombre_proyecto" formControlName="nombre_proyecto">
+              <mat-error *ngIf="formEdit.get('proyecto_seccion.nombre_proyecto')?.hasError('required')">
+                  El campo Nombre del Proyecto no puede estar vacío
+              </mat-error>
 
-            <label for="descripcion">descripcion:</label>
-            <input type="text" id="descripcion" formControlName="descripcion"  >
+              <label for="descripcion">Descripción:</label>
+              <input type="text" id="descripcion" formControlName="descripcion">
+              <mat-error *ngIf="formEdit.get('proyecto_seccion.descripcion')?.hasError('required')">
+                  El campo Descripción del Proyecto no puede estar vacío
+              </mat-error>
 
+              <label for="fecha_inicio">Fecha de Inicio:</label>
+              <input type="date" id="fecha_inicio" formControlName="fecha_inicio">
+              <mat-error *ngIf="formEdit.get('proyecto_seccion.fecha_inicio')?.hasError('required')">
+                  Debe seleccionar una fecha válida
+              </mat-error>
 
-            <label for="fecha_inicio">fecha_inicio:</label>
-            <input type="date" id="fecha_inicio" formControlName="fecha_inicio"  >
+              <label for="fecha_fin">Fecha de Fin:</label>
+              <input type="date" id="fecha_fin" formControlName="fecha_fin">
+             
+              <mat-error *ngIf="formEdit.get('proyecto_seccion.fecha_fin')?.hasError('invalidDate')">
+                  La fecha no es válida
+              </mat-error>
+              <mat-error *ngIf="formEdit.get('proyecto_seccion.fecha_fin')?.hasError('invalidFechaFin')">
+                  Debe ingresar una fecha mayor a la fecha de inicio
+              </mat-error>
+          </div>
+      </div>
 
+      <!--Seccion Cliente-->
+      <div class="container-section">
+          <h2>Sección: Cliente</h2>
+          <div formGroupName="cliente_seccion">
+              <label for="nombre_cliente">Nombre Cliente:</label>
+              <input type="text" id="nombre_cliente" formControlName="nombre_cliente">
+              <mat-error *ngIf="formEdit.get('cliente_seccion.nombre_cliente')?.hasError('required')">
+                  El campo Nombre del Cliente no puede estar vacío
+              </mat-error>
 
-            <label for="fecha_fin">fecha_fin:</label>
-            <input type="date" id="fecha_fin" formControlName="fecha_fin"  >
+              <label for="correo_cliente">Correo Cliente:</label>
+              <input type="email" id="correo_cliente" formControlName="correo_cliente">
+              <mat-error *ngIf="formEdit.get('cliente_seccion.correo_cliente')?.hasError('required')">
+                  El campo Correo del Cliente no puede estar vacío
+              </mat-error>
+              <mat-error *ngIf="formEdit.get('cliente_seccion.correo_cliente')?.hasError('email')">
+                  Debe ingresar un correo válido
+              </mat-error>
 
+              <label for="telefono_cliente">Teléfono:</label>
+              <input type="number" id="telefono_cliente" formControlName="telefono_cliente">
+              <mat-error *ngIf="formEdit.get('cliente_seccion.telefono_cliente')?.hasError('required')">
+                  El campo Teléfono del Cliente no puede estar vacío
+              </mat-error>
+              <mat-error *ngIf="formEdit.get('cliente_seccion.telefono_cliente')?.hasError('pattern')">
+                El telefono solo debe contener números              
+              </mat-error>
+              <mat-error *ngIf="formEdit.get('cliente_seccion.telefono_cliente')?.hasError('minlength')">
+                El telefono debe tener 9 digitos
+              </mat-error>
+              <mat-error *ngIf="formEdit.get('cliente_seccion.telefono_cliente')?.hasError('maxlength')">
+                El telefono debe tener 9 digitos
+              </mat-error>
+              
 
-            </div>
-        </div>
+              <label for="dni_cliente">DNI:</label>
+              <input type="number" id="dni_cliente" formControlName="dni_cliente">
+              <mat-error *ngIf="formEdit.get('cliente_seccion.dni_cliente')?.hasError('required')">
+                  El campo DNI del Cliente no puede estar vacío
+              </mat-error>
+              <mat-error *ngIf="formEdit.get('cliente_seccion.dni_cliente')?.hasError('pattern')">
+                  El DNI solo debe de contener números
+              </mat-error>
+              <mat-error *ngIf="formEdit.get('cliente_seccion.dni_cliente')?.hasError('minlength')">
+                  El DNI solo debe de tener 8 digitos
+              </mat-error>
+              <mat-error *ngIf="formEdit.get('cliente_seccion.dni_cliente')?.hasError('maxlength')">
+                  El DNI solo debe de tener 8 digitos
+              </mat-error>
+          </div>
+      </div>
 
-    </div>
+      <!--Seccion Empleado-desarrollador-->
+      <div class="container-section">
+          <h2>Sección: Desarrollador</h2>
+          <div formGroupName="empleado_seccion">
+              <label for="idEmpleado">ID Desarrollador:</label>
+              <input name="idEmpleado" id="idEmpleado" type="text" formControlName="idEmpleado" readonly>
 
-    <!--Seccion cliente-->
-    <div class="container-client">
-        <div>
-            <span>Seccion: Cliente</span>
+              <label for="nombre_empleado">Nombre Desarrollador:</label>
+              <input name="nombre_empleado" id="nombre_empleado" type="text" formControlName="nombre_empleado" readonly>
 
-            <div formGroupName="cliente_seccion">
-            
-                <label for="nombre_cliente"> Nombre Cliente:</label>
-                <input type="text" id="nombre_cliente" formControlName="nombre_cliente"  >
-    
-                <label for="correo_cliente">correo_cliente:</label>
-                <input type="email" id="correo_cliente" formControlName="correo_cliente"  >
-    
-                <label for="telefono_cliente">TElefono:</label>
-                <input type="number" id="telefono_cliente" formControlName="telefono_cliente"  >
-    
-                <label for="dni_cliente">DNI:</label>
-                <input type="number" id="dni_cliente" formControlName="dni_cliente" >
-               
-    
-                
-    
-            </div>
-    
-        </div>
-       
-       
-    </div>
+              <label for="dni_empleado">DNI:</label>
+              <input type="number" id="dni_empleado" formControlName="dni_empleado" readonly>
 
-    
-    <!--Seccion Empleado-desarrollador-->
-    <div class="container-dev">
-        <div>
-            <span>Seccion: Desarrollador</span>
+              <label for="correo_empleado">Correo:</label>
+              <input type="email" id="correo_empleado" formControlName="correo_empleado" readonly>
 
-            <div formGroupName="empleado_seccion">
-              <label for="nombre_empleado"> Id desarrollador:</label>
-              <input type="text" formControlName="idEmpleado" readonly>  
-
-              <label for="nombre_empleado"> Nombre desarrollador:</label>
-              <input type="text" formControlName="nombre_empleado" readonly>  
-                
-                <label for="dni_empleado"> DNI:</label>
-                <input type="number" id="dni_empleado" formControlName="dni_empleado" readonly>
-          
-                <label for="correo_empleado"> Correo:</label>
-                <input type="email" id="correo_empleado" formControlName="correo_empleado" readonly>
-
-                <mat-form-field>
+              <mat-form-field>
                   <mat-label>Desarrollador</mat-label>
                   <mat-select (selectionChange)="changeValueDesarrollador($event)">
-                    <mat-option *ngFor="let desarrollador of empleados" [value]="desarrollador.idEmpleado">
-                      {{ desarrollador.nombre_empleado }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                  
-              </div> 
-    </div>
-
-    </div>
-    
-    
-    
-
-   
-    
-
-     <!--Seccion Estado-->
-     <div class="container-estado">
-        <div>
-            <span>Seccion: Estado</span>
-
-            <div formGroupName="estado_seccion">
-                <label for="estado">Id Estado:</label>
-                <input name="estado" id="idEstado" formControlName="idEstado"  type="text" readonly>
-
-                <label for="estado">estado:</label>
-                <input name="estado" id="estado" formControlName="estado"  type="text" readonly>
-                
-              
-                <mat-form-field>
-                  <mat-label>Estados</mat-label>
-                  <mat-select (selectionChange)="changeValueEstado($event)">
-                    <mat-option *ngFor="let estado of estados" [value]="estado.idEstado">
-                      {{ estado.estado }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-
-                
-            </div>
-        </div> 
-    </div>
-
-     <!--Seccion Cotizacion-->
-     <div class="container-cotizacion">
-        <div>
-            <span>Seccion: Cotizacion</span>
-
-            <div formGroupName="cotizacion_seccion">
-                
-                <mat-form-field>
-                    <mat-label>Cotización</mat-label>
-                    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" />
-                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addElemento($event)">
-                      <mat-option *ngFor="let elementos of filteredOptions | async" [value]="elementos">
-                        {{ elementos }}
+                      <mat-option *ngFor="let desarrollador of empleados" [value]="desarrollador.idEmpleado">
+                          {{ desarrollador.nombre_empleado }}
                       </mat-option>
-                    </mat-autocomplete>
-                  </mat-form-field>
-                  <h3>Lista de Cotizaciones:</h3>
-                  <mat-list role="list">
-                    <mat-list-item role="list-item" *ngFor="let elemento of selectedElementos" class="list-item">
-                
-                      <mat-icon class="delete-icon" (click)="deleteElemento(elemento)">delete</mat-icon>
-                      <span class="text-container">{{ elemento.nombre_elemento }} - S/. {{ elemento.costo }}</span>
-                    </mat-list-item>
-                  </mat-list>
-      <mat-divider></mat-divider>
-
-      <div class="container-precioss">
-        <mat-form-field floatLabel="always">
-          <mat-label>SubTotal</mat-label>
-          <input matInput type="number" formControlName="subtotal" class="example-right-align" placeholder="0"  readonly/>
-          <span matTextPrefix>$&nbsp;</span>
-          <span matTextSuffix>.00</span>
-        </mat-form-field>
-
-        <mat-form-field floatLabel="always">
-          <mat-label>Descuento:</mat-label>
-          <input matInput type="number" formControlName="descuento" (keyup)="changeValueDescuento($event)" class="example-right-align" placeholder="0" />
-          <span matTextPrefix>$&nbsp;</span>
-          <span matTextSuffix>.00</span>
-        </mat-form-field>
-
-        <mat-divider></mat-divider>
-
-        <mat-form-field floatLabel="always">
-          <mat-label>Total:</mat-label>
-          <input matInput type="number" formControlName="total" class="example-right-align" placeholder="0" readonly/>
-          <span matTextPrefix>$&nbsp;</span>
-          <span matTextSuffix>.00</span>
-        </mat-form-field>
-        
-
-       
-
+                  </mat-select>
+              </mat-form-field>
+          </div>
       </div>
-            </div>
-        </div> 
-    </div>
-    <button mat-button (click)="actualizarProyecto()">Actualizar datos</button>
 
-   
+     
+  </div>
+
+  <!-- Fila 2 -->
+  <div class="row">
+     <!--Seccion Estado-->
+     <div class="container-section">
+      <h2>Sección: Estado</h2>
+      <div formGroupName="estado_seccion">
+          <label for="idEstado">ID Estado:</label>
+          <input name="estado" id="idEstado" formControlName="idEstado" type="text" readonly>
+
+          <label for="estado">Estado:</label>
+          <input name="estado" id="estado" formControlName="estado" type="text" readonly>
+
+          <mat-form-field>
+              <mat-label>Estados</mat-label>
+              <mat-select (selectionChange)="changeValueEstado($event)">
+                  <mat-option *ngFor="let estado of estados" [value]="estado.idEstado">
+                      {{ estado.estado }}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
+  </div>
+      <!--Seccion Cotizacion-->
+  <div class="container-section">
+    <h2>Sección: Cotización</h2>
+    <div formGroupName="cotizacion_seccion">
+        <mat-form-field>
+            <mat-label>Cotización</mat-label>
+            <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addElemento($event)">
+                <mat-option *ngFor="let elementos of filteredOptions | async" [value]="elementos">
+                    {{ elementos }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+        <h3>Lista de Cotizaciones:</h3>
+        <mat-list role="list">
+            <mat-list-item role="list-item" *ngFor="let elemento of selectedElementos" class="list-item">
+                <mat-icon class="delete-icon" (click)="deleteElemento(elemento)">delete</mat-icon>
+                <span class="text-container">{{ elemento.nombre_elemento }} - S/. {{ elemento.costo }}</span>
+            </mat-list-item>
+        </mat-list>
+        <mat-divider></mat-divider>
+        <div class="container-precioss">
+            <mat-form-field floatLabel="always">
+                <mat-label>SubTotal</mat-label>
+                <input matInput type="number" formControlName="subtotal" class="example-right-align" placeholder="0" readonly>
+                <span matTextPrefix>$&nbsp;</span>
+                <span matTextSuffix>.00</span>
+            </mat-form-field>
+            <mat-form-field floatLabel="always">
+                <mat-label>Descuento:</mat-label>
+                <input matInput type="number" formControlName="descuento" (keyup)="changeValueDescuento($event)" class="example-right-align" placeholder="0">
+                <span matTextPrefix>$&nbsp;</span>
+                <span matTextSuffix>.00</span>
+            </mat-form-field>
+            <mat-divider></mat-divider>
+            <mat-form-field floatLabel="always">
+                <mat-label>Total:</mat-label>
+                <input matInput type="number" formControlName="total" class="example-right-align" placeholder="0" readonly>
+                <span matTextPrefix>$&nbsp;</span>
+                <span matTextSuffix>.00</span>
+            </mat-form-field>
+        </div>
+        <div class="button-container">
+            <button mat-button (click)="actualizarProyecto()">Actualizar datos</button>
+        </div>
+    </div>
+</div>
+      </div>
+
+  
 </form>

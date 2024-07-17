@@ -1,4 +1,5 @@
 import { Clientes } from "./clientes";
+import { Cotizaciones } from "./cotizaciones";
 import { Empleados } from "./empleados";
 import { Estados } from "./estados";
 
@@ -14,6 +15,6 @@ export interface Proyectos {
     nombre_proyecto: string;
     descripcion: string;
     fecha_inicio: Date;
-
+    cotizacion: Cotizaciones[];
     fecha_fin: Date;
 }

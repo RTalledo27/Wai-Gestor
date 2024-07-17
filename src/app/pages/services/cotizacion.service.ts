@@ -36,6 +36,14 @@ export class CotizacionService {
     );
   }
 
+  //UPDATE COTIZACION
+  updateCotizacion(idProyecto: number,cotizacion: Cotizaciones): Observable<Cotizaciones> {
+    return this.http.put<Cotizaciones>(`${this.apiUrl}/${idProyecto}`, cotizacion)
+    .pipe(
+      map(response => response as Cotizaciones)
+    );
+  }
+
 
   //ELEMENTOS - COTIZACION
 
@@ -66,6 +74,15 @@ export class CotizacionService {
     return this.http.post<Elementos>(this.apiUrlElementos, elemento)
     .pipe(
       map(response => response as Elementos)
+    );
+  }
+
+
+  //ELIMINAR ELEMENTOS COTIZACION:
+  deleteElementos(idElementoCotizacion: number): Observable<ElementosCotizacion> {
+    return this.http.delete<ElementosCotizacion>(`${this.apiUrlElementosCotizacion}/${idElementoCotizacion}`)
+    .pipe(
+      map(response => response as ElementosCotizacion)
     );
   }
  
